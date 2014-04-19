@@ -1,9 +1,9 @@
 class Game
   attr_accessor :deck, :dealer_cards, :player_cards
-  @@suits = ['Spade', 'Club', 'Heart', 'Diamond']
-  @@ranks = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
+  SUITS = ['Spade', 'Club', 'Heart', 'Diamond']
+  RANKS = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
   def initialize
-    @deck = @@suits.product(@@ranks).shuffle!
+    @deck = SUITS.product(RANKS).shuffle!
     @dealer_cards = Cards.new
     @player_cards = Cards.new
   end
@@ -78,9 +78,9 @@ end
 
 class Dealer
   attr_reader :name
-  @@dealers = ['John', 'Kim', 'Lam', 'Lale']
+  DEALERS = ['John', 'Kim', 'Lam', 'Lale']
   def initialize
-    @name = @@dealers[rand(@@dealers.size)]
+    @name = DEALERS[rand(DEALERS.size)]
   end
   def say something
     puts "=> Dealer: #{something}"
