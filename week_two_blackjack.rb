@@ -1,159 +1,169 @@
-class Cards
-  attr_accessor :cards
-  def initialize
-    @cards = Array.new
-  end
-end
-
-class Shoe < Cards
-  def initialize (num)
-    @num_of_decks = num
-  end
-  def fill!
-    deck = Deck.new
-    deck.prepare!
-    self.cards = deck.cards * @num_of_decks
-  end
-end
-
-class Deck < Cards
-  def prepare!
-    suits = ['Spades', 'Clubs', 'Hearts', 'Diamonds']
-    ranks = ['Ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King']
-    suits.each do |suit|
-      ranks.each do |rank|
-        card = Card.new(suit, rank)
-        self.cards << card
-      end
-    end
-  end
-end
-
 class Card
   attr_accessor :suit, :rank
-  def initialize (s, r)
-    @suit = s
-    @rank = r
+  def initialize(suit, rank)
+    @suit = suit
+    @rank = rank
   end
-  def add_point
+  def value
     if @rank == 'Ace'
-      if true
-        11 
-      end
-    elsif @rank.class == String
+      11
+    elsif @rank.to_i == 0
       10
     else
-      self.rank
+      @rank.to_i
     end
   end
 end
 
-class Table 
+class Shoe
   attr_accessor :cards
-  def initialize (s)
-    @shoe = s
+  def initialize (n)
     @cards = Array.new
+    @number_of_deck = n
   end
-  def deal
-    self.cards << @shoe.cards.pop
-    puts "card number ##{self.cards.size}: '#{self.cards.last.rank}', add #{self.cards.last.add_point}.."
-  end
-  def sum
-    sum = 0
-    ace_here = false
-    self.cards.each do |card|
-      sum += card.add_point
-      ace_here = true if card.rank == 'Ace'
-    end
-    if sum > 21 && ace_here
-      sum - 10
-    else
-      sum
+  def make
+    suits = ['Spades', 'Clubs', 'Hearts', 'Diamonds']
+    ranks = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
+    (@number_of_deck).times do
+      suits.each do |suit|
+        ranks.each do |rank|
+          self.cards << Card.new(suit, rank)
+        end
+      end
     end
   end
 end
 
-class Player
-  attr_accessor :points, :table
-  def initialize (s)
-    @table = Table.new(s)
+class Person
+end
+class Player < Person
+  attr_accessor :cards, :name, :points, :stay
+  def initialize 
+    @cards = Array.new
+    @points = 0
+    @stay = false
   end
-  def start
-    print '***'
-    puts self.class == Dealer ? 'dealer start' : 'guest start'
-    2.times do
-      self.table.deal
-      self.status
-    end
+  def hit card
+    self.cards << card
+    self.points += card.value
+    "#{card.rank} of #{card.suit} to #{self.name} : #{self.points}"
   end
-  def status
-    self.points = self.table.sum
-    puts "now it's #{self.points}"
-    if self.points > 21
-      puts "* Busted!" 
-      puts "game ends here"
-      exit
-    elsif self.points == 21
-      puts "* Black Jack!"
-      puts "game ends here"
-      exit
-    end
-    puts
+
+  def result
+    "result"
   end
+
 end
 
-class Dealer < Player
+class Dealer < Person
+  attr_accessor :cards, :name, :points, :stay
+  def initialize 
+    @cards = Array.new
+    @points = 0
+    @stay = false
+    @name = 'the dealer'
+  end
+  def hit card
+    self.cards << card
+    self.points += card.value
+    "#{card.rank} of #{card.suit} to #{self.name} : #{self.points}"
+  end
   def ask question
-    puts question
-  end
-end
-class Guest < Player
-  def answer
+    puts "Dealer: #{question}"
+    print 'Player: '
     gets.chomp
   end
-end
+  def say something
+    puts "Dealer: #{something}"
+  end
+  def checking (player)
+    if player.points > 21
+      player.stay = true
+      "You are BUSTED!"
+    elsif player.points == 21
+      player.stay = true
+      "You are Black Jack!"
+    else
+      if self.points > 21
+        self.stay = true
+        "I am BUSTED!" 
+      elsif self.points == 21
+        self.stay = true
+        "I am Black Jack!" 
+      else
+        if self.stay && player.stay
+          if self.points == player.points
+            "Draw"
+          elsif self.points < player.points
+            "You win"
+          else # if self.points > player.points
+            "You lose" 
+          end
+        else
+          "game goes on"
+        end
+      end
+    end
+  end
+end  
 
-shoe = Shoe.new(2)
-shoe.fill!
-shoe.cards.shuffle!
-me = Guest.new(shoe)
-dee = Dealer.new(shoe)
-me.start
-dee.start
-while me.points < 21
-  dee.ask "you #{me.points} (vs) dealer #{dee.points}.\nhit (1) or stay (2) ?"
-  hit_or_stay = me.answer
-  while !(hit_or_stay == '1' || hit_or_stay == '2')
-    dee.ask "sorry I couldn't hear you, hit (1) or stay (2) ?"
-    hit_or_stay = me.answer
-  end
-  if hit_or_stay == '1'
-    me.table.deal
-    me.status
-  else
-    puts "you stay\n"
-    break
-  end
-end
-if dee.points > 17
-  puts 'dealer stay'
+# sit on the table
+dealer = Dealer.new
+me = Player.new
+me.name = dealer.ask "What is your name, cowboy?"
+me.name.capitalize!
+dealer.say "Let's play"
+
+# ready a shoe
+num_decks = dealer.ask "How many decks in the shoe, #{me.name}?"
+if num_decks.to_i == 0
+  dealer.ask "What did you just say?"
 else
-  puts 'dealer hit'
-  dee.table.deal
+  shoe = Shoe.new(num_decks.to_i)
 end
-dee.status
+shoe.make
+dealer.say "(shuffle... shuffle... #{shoe.cards.size} cards...)"
+shoe.cards.shuffle!
 
-class Game
-  def initialize(d,g)
-    @d = d
-    @g = g
+# initial two cards
+2.times do
+  dealer.say me.hit shoe.cards.shift
+  dealer.say dealer.hit shoe.cards.shift
+end
+dealer.say "#{me.name} has #{me.points}, #{dealer.name} has #{dealer.points}"
+dealer.say dealer.checking me
+go_on = true
+
+while go_on
+  # player turn
+  if !me.stay
+    hit_or_stay = dealer.ask "Wanna hit? 1) hit 2) stay"
+    if !['1','2'].include?(hit_or_stay)
+      dealer.ask "What did you just say?"
+    elsif hit_or_stay == '1'
+      dealer.say me.hit shoe.cards.shift
+    else # if me.decision == '2'
+      dealer.say "Okay you stay, #{me.name}"
+      me.stay = true
+    end
+    dealer.say dealer.checking me
   end
-  def compare
-    puts 'Draw' if @d.points == @g.points
-    puts 'Lose' if @d.points > @g.points
-    puts 'Win' if @d.points < @g.points
+
+  # dealer turn
+  if !dealer.stay
+    if dealer.points < 17
+      dealer.say "#{dealer.name} goes hit"
+      dealer.say dealer.hit shoe.cards.shift
+    else
+      dealer.say "#{dealer.name} goes stay.."
+      dealer.stay = true
+    end
+    dealer.say dealer.checking me
+  end
+
+  # go on?
+  if dealer.stay && me.stay
+    go_on = false
+    dealer.say dealer.checking me
   end
 end
-
-game = Game.new(dee, me)
-game.compare
