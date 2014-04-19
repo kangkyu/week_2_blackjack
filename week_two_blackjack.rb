@@ -66,20 +66,20 @@ class Game
 end
 
 class Cards < Array
-  @@ace = false
   def count
+    ace_is = false
     count = 0
     self.each do |suit, rank|
       if rank == 'Ace'
         count += 11
-        @@ace = true
+        ace_is = true
       elsif rank.to_i == 0
         count += 10
       else
         count += rank.to_i
       end
     end
-    if @@ace && count > 21
+    if ace_is && count > 21
       count - 10
     else
       count
