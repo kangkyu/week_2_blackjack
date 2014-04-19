@@ -1,169 +1,161 @@
-class Card
-  attr_accessor :suit, :rank
-  def initialize(suit, rank)
-    @suit = suit
-    @rank = rank
+class Game
+  attr_accessor :deck, :dealer_cards, :player_cards
+  @@suits = ['Spades', 'Clubs', 'Hearts', 'Diamonds']
+  @@ranks = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
+  def initialize
+    @deck = @@suits.product(@@ranks).shuffle!
+    @dealer_cards = Cards.new
+    @player_cards = Cards.new
   end
-  def value
-    if @rank == 'Ace'
-      11
-    elsif @rank.to_i == 0
-      10
-    else
-      @rank.to_i
+  def deal_first
+    2.times do
+      self.deal_player
+      self.deal_dealer
     end
   end
-end
-
-class Shoe
-  attr_accessor :cards
-  def initialize (n)
-    @cards = Array.new
-    @number_of_deck = n
+  def deal_player
+    self.player_cards << self.deck.shift
+    puts "player now got #{self.player_cards}"
   end
-  def make
-    suits = ['Spades', 'Clubs', 'Hearts', 'Diamonds']
-    ranks = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
-    (@number_of_deck).times do
-      suits.each do |suit|
-        ranks.each do |rank|
-          self.cards << Card.new(suit, rank)
-        end
-      end
+  def deal_dealer
+    self.dealer_cards << self.deck.shift
+    puts "dealer now got #{self.dealer_cards}"
+  end
+  def status
+    player_count = self.player_cards.count
+    dealer_count = self.dealer_cards.count
+    puts "----------------------" 
+    puts "player".ljust(10) + "#{self.player_cards.size} cards".rjust(10)
+    puts "dealer".ljust(10) + "#{self.dealer_cards.size} cards".rjust(10)
+    puts "deck".ljust(10) + "#{self.deck.size} cards left".rjust(10)
+    puts "----------------------"
+    puts "player_cards".ljust(10) + "#{player_count} points".rjust(10)
+    puts "dealer_cards".ljust(10) + "#{dealer_count} points".rjust(10)
+    puts "----------------------"
+    if (player_count < 21 && dealer_count < 21)
+      true
+    else
+      false
     end
   end
-end
-
-class Person
-end
-class Player < Person
-  attr_accessor :cards, :name, :points, :stay
-  def initialize 
-    @cards = Array.new
-    @points = 0
-    @stay = false
-  end
-  def hit card
-    self.cards << card
-    self.points += card.value
-    "#{card.rank} of #{card.suit} to #{self.name} : #{self.points}"
-  end
-
-  def result
-    "result"
-  end
-
-end
-
-class Dealer < Person
-  attr_accessor :cards, :name, :points, :stay
-  def initialize 
-    @cards = Array.new
-    @points = 0
-    @stay = false
-    @name = 'the dealer'
-  end
-  def hit card
-    self.cards << card
-    self.points += card.value
-    "#{card.rank} of #{card.suit} to #{self.name} : #{self.points}"
-  end
-  def ask question
-    puts "Dealer: #{question}"
-    print 'Player: '
-    gets.chomp
-  end
-  def say something
-    puts "Dealer: #{something}"
-  end
-  def checking (player)
-    if player.points > 21
-      player.stay = true
-      "You are BUSTED!"
-    elsif player.points == 21
-      player.stay = true
-      "You are Black Jack!"
+  def end_comment
+    player_count = self.player_cards.count
+    dealer_count = self.dealer_cards.count
+    if (player_count > 21 && dealer_count > 21) || (player_count == dealer_count)
+      "Draw game"
     else
-      if self.points > 21
-        self.stay = true
+      if player_count > 21
+        "You are BUSTED!"
+      elsif player_count == 21
+        "You are Black Jack!"
+      elsif dealer_count > 21
         "I am BUSTED!" 
-      elsif self.points == 21
-        self.stay = true
+      elsif dealer_count == 21
         "I am Black Jack!" 
       else
-        if self.stay && player.stay
-          if self.points == player.points
-            "Draw"
-          elsif self.points < player.points
-            "You win"
-          else # if self.points > player.points
-            "You lose" 
-          end
+        if player_count > dealer_count
+          "You win"
+        elsif player_count < dealer_count
+          "You lose"
         else
-          "game goes on"
+          "what is this?"
         end
       end
     end
   end
-end  
-
-# sit on the table
-dealer = Dealer.new
-me = Player.new
-me.name = dealer.ask "What is your name, cowboy?"
-me.name.capitalize!
-dealer.say "Let's play"
-
-# ready a shoe
-num_decks = dealer.ask "How many decks in the shoe, #{me.name}?"
-if num_decks.to_i == 0
-  dealer.ask "What did you just say?"
-else
-  shoe = Shoe.new(num_decks.to_i)
 end
-shoe.make
-dealer.say "(shuffle... shuffle... #{shoe.cards.size} cards...)"
-shoe.cards.shuffle!
 
-# initial two cards
-2.times do
-  dealer.say me.hit shoe.cards.shift
-  dealer.say dealer.hit shoe.cards.shift
-end
-dealer.say "#{me.name} has #{me.points}, #{dealer.name} has #{dealer.points}"
-dealer.say dealer.checking me
-go_on = true
-
-while go_on
-  # player turn
-  if !me.stay
-    hit_or_stay = dealer.ask "Wanna hit? 1) hit 2) stay"
-    if !['1','2'].include?(hit_or_stay)
-      dealer.ask "What did you just say?"
-    elsif hit_or_stay == '1'
-      dealer.say me.hit shoe.cards.shift
-    else # if me.decision == '2'
-      dealer.say "Okay you stay, #{me.name}"
-      me.stay = true
+class Cards < Array
+  @@ace = false
+  def count
+    count = 0
+    self.each do |suit, rank|
+      if rank == 'Ace'
+        count += 11
+        @@ace = true
+      elsif rank.to_i == 0
+        count += 10
+      else
+        count += rank.to_i
+      end
     end
-    dealer.say dealer.checking me
-  end
-
-  # dealer turn
-  if !dealer.stay
-    if dealer.points < 17
-      dealer.say "#{dealer.name} goes hit"
-      dealer.say dealer.hit shoe.cards.shift
+    if @@ace && count > 21
+      count - 10
     else
-      dealer.say "#{dealer.name} goes stay.."
-      dealer.stay = true
+      count
     end
-    dealer.say dealer.checking me
-  end
-
-  # go on?
-  if dealer.stay && me.stay
-    go_on = false
-    dealer.say dealer.checking me
   end
 end
+
+class Player
+  attr_accessor :name
+end
+
+class Dealer
+  attr_reader :name
+  @@dealers = ['John', 'Kim', 'Lam', 'Lale']
+  def initialize
+    @name = @@dealers[rand(@@dealers.size)]
+  end
+  def say something
+    puts "=> Dealer: #{something}"
+  end
+  def ask question
+    puts "=> Dealer: #{question}"
+    print "Player: "
+    gets.chomp
+  end
+end
+
+game = Game.new
+
+# and player + dealer sitting
+dealer = Dealer.new
+player = Player.new
+dealer.say "Hi, I'm dealer, my name is #{dealer.name}."
+player.name = (dealer.ask "What's your name?").capitalize
+dealer.say "Nice to meet you, #{player.name}. Let's start."
+game.deck = game.deck * (dealer.ask "Wait, how many deck?").to_i
+game.deck.shuffle!
+# puts "cards in this game #{game.deck} and #{game.deck.size} in total"
+dealer.say "(that's #{game.deck.size} cards. shuffle... shuffle... )"
+sleep 2
+
+#
+
+# first deal - two cards each (and count)
+game.deal_first
+
+not_finished = game.status
+player_stay = false
+dealer_stay = false
+while not_finished && !(dealer_stay && player_stay)
+  if !player_stay
+    player_decide = dealer.ask "1) hit or 2) stay?"
+    if player_decide == '1'
+      puts "player hit"
+      game.deal_player
+    elsif player_decide == '2'
+      puts "player stay"
+      player_stay = true
+    else
+      dealer.ask "Sorry I couldn't hear you, 1) hit or 2) stay?"
+      next
+    end
+  end
+  if game.dealer_cards.count < 17
+    puts "dealer hit"
+    game.deal_dealer
+  else
+    puts "dealer stay"
+    dealer_stay = true
+  end
+  not_finished = game.status
+end
+
+puts "game end"
+dealer.say game.end_comment
+
+#
+
+exit
