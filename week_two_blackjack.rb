@@ -121,7 +121,9 @@ game.deck.shuffle!
 dealer.say "(that's #{game.deck.size} cards. shuffle... shuffle... )"
 sleep 2
 
-#
+# continue
+continue = true
+while continue
 
 # first deal - two cards each (and count)
 game.deal_first
@@ -157,5 +159,13 @@ puts "game end"
 dealer.say game.end_comment
 
 #
-
+c_answer = dealer.ask "continue? 1) yes 2) no"
+  if c_answer == '1'
+    game.dealer_cards.clear
+    game.player_cards.clear
+    continue = true
+  else
+    continue = false
+  end
+end
 exit
