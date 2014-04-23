@@ -92,98 +92,107 @@ class Dealer
   end
 end
 
-# start a game
-game = Game.new
+class Blackjack
+  attr_accessor :game, :dealer, :player
+  def initialize
+    # start a game
+    @game = Game.new
 
-# player + dealer sitting
-dealer = Dealer.new
-player = Player.new
-dealer.say "Hi, I'm dealer, my name is #{dealer.name}."
-player.name = (dealer.ask "What's your name?").capitalize
-dealer.say "Nice to meet you, #{player.name}. Let's start."
-
-# prepare the shoe
-game.deck = game.deck * ((dealer.ask "Wait, how many deck?").to_i)
-game.deck.shuffle!
-# puts "cards in this game #{game.deck} and #{game.deck.size} in total"
-dealer.say "(that's #{game.deck.size} cards. shuffle... shuffle... )"
-sleep 2
-
-# play loop - while player in, until cards last
-in_play = true
-while in_play
-  if game.deck.size < 10
-    dealer.say "We need more cards to play. Bye-bye!"
-    break
+    # player + dealer sitting
+    @dealer = Dealer.new
+    @player = Player.new
   end
 
-  # first deal - two cards each (and count)
-  2.times do
-      game.deal_player
-      game.deal_dealer
-  end
-   
-  # status (1) after deal first two cards
-  game.status
+  def run
+    dealer.say "Hi, I'm dealer, my name is #{dealer.name}."
+    player.name = (dealer.ask "What's your name?").capitalize
+    dealer.say "Nice to meet you, #{player.name}. Let's start."
 
-  # rally loop - while both under 21 and not both stay
-  # it's pass for either one who stays
-  player_stay = false
-  dealer_stay = false
-  while (game.player_cards.count < 21 && game.dealer_cards.count < 21) && !(dealer_stay && player_stay)
-  
-    unless player_stay 
-      # ask player whether hit or stay
-      # - deal a card to player if answer hit
-      # - move on to next person if answer stay
-      # - loop start over if answer not hit or stay ('1' or '2')
-      player_decide = dealer.ask "1) hit or 2) stay?"
-      if player_decide == '1'
-        puts "player hit"
-        game.deal_player
-      elsif player_decide == '2'
-        puts "player stay"
-        player_stay = true
-      else 
-        dealer.ask "Sorry I couldn't hear you, 1) hit or 2) stay?"
-        next 
-      end
-    end
-  
-    unless (dealer_stay || game.player_cards.count >= 21)
-      # by house rule, dealer always stay if over 17
-      # and always hit if equal or less than 17
-      # - no need to go if the player already over 21
-      if game.dealer_cards.count < 17
-        puts "dealer hit"
-        game.deal_dealer
-      else
-        puts "dealer stay"
-        dealer_stay = true
-      end
-    end
+    # prepare the shoe
+    game.deck = game.deck * ((dealer.ask "Wait, how many deck?").to_i)
+    game.deck.shuffle!
+    # puts "cards in this game #{game.deck} and #{game.deck.size} in total"
+    dealer.say "(that's #{game.deck.size} cards. shuffle... shuffle... )"
+    sleep 2
 
-    # status (2) at the end of each turn
-    game.status 
-
-  end 
-  # end of rally loop
-
-  puts "end of play"
-  dealer.say game.end_comment # 
-
-  # start over this 'play' while loop 
-  # (+ clear cards on the table) if still in
-  in_answer = dealer.ask "continue? 1) yes"
-  if in_answer == '1'
-    game.dealer_cards.clear
-    game.player_cards.clear
+    # play loop - while player in, until cards last
     in_play = true
-  else
-    in_play = false
+    while in_play
+      if game.deck.size < 10
+        dealer.say "We need more cards to play. Bye-bye!"
+        break
+      end
+
+      # first deal - two cards each (and count)
+      2.times do
+          game.deal_player
+          game.deal_dealer
+      end
+       
+      # status (1) after deal first two cards
+      game.status
+
+      # rally loop - while both under 21 and not both stay
+      # it's pass for either one who stays
+      player_stay = false
+      dealer_stay = false
+      while (game.player_cards.count < 21 && game.dealer_cards.count < 21) && !(dealer_stay && player_stay)
+      
+        unless player_stay 
+          # ask player whether hit or stay
+          # - deal a card to player if answer hit
+          # - move on to next person if answer stay
+          # - loop start over if answer not hit or stay ('1' or '2')
+          player_decide = dealer.ask "1) hit or 2) stay?"
+          if player_decide == '1'
+            puts "player hit"
+            game.deal_player
+          elsif player_decide == '2'
+            puts "player stay"
+            player_stay = true
+          else 
+            dealer.ask "Sorry I couldn't hear you, 1) hit or 2) stay?"
+            next 
+          end
+        end
+
+        # by house rule, dealer always stay if over 17
+        # and always hit if equal or less than 17
+        # - no need to go if the player already over 21
+        unless (dealer_stay || game.player_cards.count >= 21)
+          if game.dealer_cards.count < 17
+            puts "dealer hit"
+            game.deal_dealer
+          else
+            puts "dealer stay"
+            dealer_stay = true
+          end
+        end
+
+        # status (2) at the end of each turn
+        game.status 
+
+      end 
+      # end of rally loop
+
+      puts "end of play"
+      dealer.say game.end_comment #
+
+      # start over this 'play' while loop 
+      # (+ clear cards on the table) if still in
+      in_answer = dealer.ask "continue? 1) yes"
+      if in_answer == '1'
+        game.dealer_cards.clear
+        game.player_cards.clear
+        in_play = true
+      else
+        in_play = false
+      end
+
+    end 
+    # end of play loop
   end
+end
 
-end 
-# end of play loop
-
+Blackjack.new.run
 exit
