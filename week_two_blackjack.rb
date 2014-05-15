@@ -1,7 +1,7 @@
 class ShoeGame
   NUM_DECKS = 6
   attr_accessor :shoe, :dealer, :player1
-  def initialize 
+  def initialize
     @shoe = Deck.new(NUM_DECKS)
     @dealer = Dealer.new
     @player1 = Player.new
@@ -19,7 +19,11 @@ class ShoeGame
 
   def greet
     dealer.name = 'dealer'
-    player1.name = 'Jones'
+    puts "Hello, before we start the game, may I have your first name?"
+    player_name_input = gets.chomp.capitalize
+    unless player_name_input.empty?
+      player1.name = player_name_input
+    end
     puts "#{dealer.name} says : Hi, #{player1.name}!"
   end
 
@@ -177,6 +181,7 @@ class Dealer
 
   def decide
     puts "\n#{name}'s turn,"
+    sleep 1
     hit_by_rule
   end
 
@@ -225,7 +230,7 @@ class Card
     @rank = r
   end
 
-  def face_value 
+  def face_value
     if rank == 'A'
       11
     elsif rank.to_i == 0
@@ -250,7 +255,7 @@ class Card
   private
   def to_word(c)
     case c
-    when 'D' then "Diamonds" 
+    when 'D' then "Diamonds"
     when 'C' then "Clubs"
     when 'H' then "Hearts"
     when 'S' then "Spades"
