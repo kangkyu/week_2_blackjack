@@ -20,9 +20,9 @@ class ShoeGame
   def greet
     dealer.name = 'dealer'
     puts "Hello, before we start the game, may I have your first name?"
-    player_name_input = gets.chomp.capitalize
+    player_name_input = gets.chomp
     unless player_name_input.empty?
-      player1.name = player_name_input
+      player1.name = player_name_input.capitalize
     end
     puts "#{dealer.name} says : Hi, #{player1.name}!"
   end
@@ -35,12 +35,11 @@ class ShoeGame
   end
 
   def turn_of(person)
-    person.status
     person.check_if_blackjack
     loop do
       if yes_hit = person.decide
         person.hit shoe.deal_one
-        person.check_if_done
+        person.check_if_busts
       else
         person.stay
         break
@@ -92,13 +91,14 @@ module Hand
   end
 
   def check_if_blackjack
+    status
     if total_value == 21
       blackjack
       exit
     end
   end
 
-  def check_if_done()
+  def check_if_busts
     status
     if total_value > 21
       bust
@@ -154,15 +154,9 @@ class Player
   def ask_if_hit
     puts "hit or stay?"
     answer = gets.chomp
-    case answer
-    when 'hit'
-      true
-    when 'stay'
-      false
-    when '1'
-      true
-    when '2'
-      false
+    case answer.downcase
+    when 'hit', '1' then true
+    when 'stay', '2' then false
     else
       puts "please type 'hit' or 'stay'"
       ask_if_hit
@@ -186,11 +180,7 @@ class Dealer
   end
 
   def hit_by_rule
-    if total_value > 17
-      false
-    else
-      true
-    end
+    total_value < 17
   end
 
   def flip
@@ -200,11 +190,10 @@ end
 
 class Deck
   attr_accessor :cards
-  def initialize(n=1)
+  def initialize(num_of_decks=1)
     @cards = Array.new
     suit = ['D','C','H','S']
     rank = ['2','3','4','5','6','7','8','9','10','J','K','Q','A']
-    num_of_decks = n
     num_of_decks.times do
       suit.product(rank).each {|s,r| cards << Card.new(s,r)}
     end
@@ -245,11 +234,11 @@ class Card
   end
 
   def rank_name
-    "#{to_word(rank)}"
+    to_word(rank)
   end
 
   def suit_name
-    "#{to_word(suit)}"
+    to_word(suit)
   end
 
   private
