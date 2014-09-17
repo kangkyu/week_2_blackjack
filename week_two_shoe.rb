@@ -1,6 +1,7 @@
-class Deck
+class Shoe
+  NUM_DECKS = 6
   attr_accessor :cards
-  def initialize(num_of_decks=1)
+  def initialize(num_of_decks = NUM_DECKS)
     @cards = Array.new
     suit = ['D','C','H','S']
     rank = ['2','3','4','5','6','7','8','9','10','J','K','Q','A']
@@ -40,15 +41,7 @@ class Card
   end
 
   def full_name
-    "#{rank_name} of #{suit_name}"
-  end
-
-  def rank_name
-    to_word(rank)
-  end
-
-  def suit_name
-    to_word(suit)
+    "#{to_word(rank)} of #{to_word(suit)}"
   end
 
   private

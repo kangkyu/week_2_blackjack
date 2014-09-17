@@ -2,10 +2,9 @@ require_relative 'week_two_deck'
 require_relative 'week_two_hand'
 
 class ShoeGame
-  NUM_DECKS = 6
   attr_accessor :shoe, :dealer, :player1
   def initialize
-    @shoe = Deck.new#(NUM_DECKS)
+    @shoe = Shoe.new
     @dealer = Dealer.new
     @player1 = Player.new
     shoe.shuffle!
@@ -69,7 +68,6 @@ class ShoeGame
     puts "Round draw!"
   end
 end
-
 
 game = ShoeGame.new
 game.run
