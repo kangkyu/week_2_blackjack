@@ -1,4 +1,3 @@
-
 module Hand
   attr_accessor :cards
   def initialize
@@ -70,14 +69,6 @@ class Player
     @cards = Array.new
   end
 
-  def win
-    puts "#{name} wins"
-  end
-
-  def lose
-    puts "#{name} loses"
-  end
-
   def decide
     puts "\n#{name}'s turn,"
     ask_if_hit
@@ -99,10 +90,10 @@ end
 class Dealer
   include Hand
 
-  attr_accessor :cards, :name
+  attr_accessor :name, :cards
   def initialize
-    @cards = Array.new
     @name = 'dealer'
+    @cards = Array.new
   end
 
   def decide

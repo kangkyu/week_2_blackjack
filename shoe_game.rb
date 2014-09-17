@@ -1,5 +1,5 @@
-require_relative 'week_two_deck'
-require_relative 'week_two_hand'
+require_relative 'shoe'
+require_relative 'hand'
 
 class ShoeGame
   attr_accessor :shoe, :dealer, :player1
@@ -51,9 +51,9 @@ class ShoeGame
 
   def compare_stay_value
     if dealer.total_value < player1.total_value
-      player1.win
+      say_win_to player1
     elsif dealer.total_value > player1.total_value
-      player1.lose
+      say_win_to dealer
     else
       draw
     end
@@ -62,6 +62,10 @@ class ShoeGame
   def shoe_size
     puts
     puts shoe.size
+  end
+
+  def say_win_to(person)
+    puts "#{person.name} wins"
   end
 
   def draw
