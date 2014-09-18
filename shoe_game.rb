@@ -20,7 +20,6 @@ class ShoeGame
   end
 
   def greet
-    dealer.name = 'dealer'
     puts "Hello, before we start the game, may I have your first name?"
     player_name_input = gets.chomp
     unless player_name_input.empty?
@@ -51,9 +50,9 @@ class ShoeGame
 
   def compare_stay_value
     if dealer.total_value < player1.total_value
-      say_win_to player1
+      player1.win
     elsif dealer.total_value > player1.total_value
-      say_win_to dealer
+      dealer.win
     else
       draw
     end
@@ -62,10 +61,6 @@ class ShoeGame
   def shoe_size
     puts
     puts shoe.size
-  end
-
-  def say_win_to(person)
-    puts "#{person.name} wins"
   end
 
   def draw

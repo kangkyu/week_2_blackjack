@@ -1,26 +1,4 @@
 module Hand
-  attr_accessor :cards
-  def initialize
-    @cards = Array.new
-  end
-
-  def hit(card)
-    puts " => #{name} hits"
-    cards << card
-  end
-
-  def stay
-    puts " => #{name} stays"
-  end
-
-  def bust
-    puts " => #{name} busts"
-  end
-
-  def blackjack
-    puts " => #{name} blackjack"
-  end
-
   def check_if_blackjack
     status
     if total_value == 21
@@ -60,13 +38,40 @@ module Hand
   end
 end
 
-class Player
+class Person
   include Hand
 
-  attr_accessor :name, :cards
-  def initialize(name = 'player')
-    @name = name.capitalize
+  attr_accessor :cards, :name
+  def initialize(name)
     @cards = Array.new
+    @name = name.capitalize
+  end
+
+  def hit(card)
+    puts " => #{name} hits"
+    cards << card
+  end
+
+  def stay
+    puts " => #{name} stays"
+  end
+
+  def bust
+    puts " => #{name} busts"
+  end
+
+  def blackjack
+    puts " => #{name} blackjack"
+  end
+
+  def win
+    puts "#{name} wins"
+  end
+end
+
+class Player < Person
+  def initialize(name = 'player')
+    super
   end
 
   def decide
@@ -87,13 +92,9 @@ class Player
   end
 end
 
-class Dealer
-  include Hand
-
-  attr_accessor :name, :cards
-  def initialize
-    @name = 'dealer'
-    @cards = Array.new
+class Dealer < Person
+  def initialize(name = 'dealer')
+    super
   end
 
   def decide
