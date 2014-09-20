@@ -7,11 +7,11 @@ class ShoeGame
     @shoe = Shoe.new
     @dealer = Dealer.new
     @player1 = Player.new
-    shoe.shuffle!
   end
 
   def run
     greet
+    shoe.shuffle!
     first_deal
     turn_of player1
     dealer.flip
@@ -56,11 +56,6 @@ class ShoeGame
     else
       draw
     end
-  end
-
-  def shoe_size
-    puts
-    puts shoe.size
   end
 
   def draw

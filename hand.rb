@@ -100,11 +100,7 @@ class Dealer < Person
   def decide
     puts "\n#{name}'s turn,"
     sleep 1
-    hit_by_rule
-  end
-
-  def hit_by_rule
-    total_value < 17
+    hit_by_rule = total_value < 17
   end
 
   def flip
