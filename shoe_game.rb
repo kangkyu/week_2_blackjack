@@ -4,7 +4,7 @@ require_relative 'hand'
 class ShoeGame
   attr_accessor :shoe, :dealer, :player1
   def initialize
-    @shoe = Shoe.new
+    @shoe = Shoe.new(num_of_decks = 1)
     @dealer = Dealer.new
     @player1 = Player.new
   end
@@ -32,13 +32,13 @@ class ShoeGame
     player1.cards << shoe.deal_one << shoe.deal_one
     dealer.cards << shoe.deal_one << shoe.deal_one
     puts "\n#{dealer.name}'s second card showing:"
-    puts dealer.cards.last.full_name.rjust(30)
+    puts "#{dealer.cards.last}".rjust(30)
   end
 
   def turn_of(person)
     person.check_if_blackjack
     loop do
-      if yes_hit = person.decide
+      if person.decide_hit?
         person.hit shoe.deal_one
         person.check_if_busts
       else

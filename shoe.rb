@@ -1,13 +1,9 @@
 class Shoe
   NUM_DECKS = 6
-  attr_accessor :cards
+  attr_accessor :cards, :num_of_decks
   def initialize(num_of_decks = NUM_DECKS)
     @cards = Array.new
-    suit = ['D','C','H','S']
-    rank = ['2','3','4','5','6','7','8','9','10','J','K','Q','A']
-    num_of_decks.times do
-      suit.product(rank).each {|s,r| cards << Card.new(s,r)}
-    end
+    @num_of_decks = 1
   end
 
   def size
@@ -19,7 +15,29 @@ class Shoe
   end
 
   def shuffle!
+    ask_number_of_decks
+    suits = ['D','C','H','S']
+    ranks = ['2','3','4','5','6','7','8','9','10','J','K','Q','A']
+    num_of_decks.times do
+      suits.product(ranks).each do |suit,rank| 
+        cards << Card.new(suit,rank)
+      end
+    end
+
     cards.shuffle!
+  end
+
+  def ask_number_of_decks
+    puts "how many decks in this game's shoe?"
+    answer = gets.chomp
+    unless answer.empty?
+      if answer.to_i == 0
+        puts "please type a number"
+        ask_number_of_decks
+      else
+        self.num_of_decks = answer.to_i
+      end
+    end
   end
 end
 
@@ -40,17 +58,15 @@ class Card
     end
   end
 
-  def full_name
-    "#{to_word(rank)} of #{to_word(suit)}"
-  end
-
-  private
-  def to_word(c)
-    case c
+  def to_s
+    suit_name = case suit
     when 'D' then "Diamonds"
     when 'C' then "Clubs"
     when 'H' then "Hearts"
     when 'S' then "Spades"
+    end
+
+    rank_name = case rank
     when '2' then "Two"
     when '3' then "Three"
     when '4' then "Four"
@@ -65,5 +81,7 @@ class Card
     when 'Q' then "Queen"
     when 'A' then "Ace"
     end
+
+    "#{rank_name} of #{suit_name}"
   end
 end

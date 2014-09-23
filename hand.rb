@@ -18,7 +18,7 @@ module Hand
   def status
     puts "\n#{name} has now total value : #{total_value}"
     cards.each do |card|
-      puts card.full_name.rjust(30)
+      puts "#{card}".rjust(30)
     end
   end
 
@@ -74,7 +74,7 @@ class Player < Person
     super
   end
 
-  def decide
+  def decide_hit?
     puts "\n#{name}'s turn,"
     ask_if_hit
   end
@@ -97,13 +97,17 @@ class Dealer < Person
     super
   end
 
-  def decide
+  def decide_hit?
     puts "\n#{name}'s turn,"
     sleep 1
-    hit_by_rule = total_value < 17
+    hit_by_rule
+  end
+
+  def hit_by_rule
+    total_value < 17
   end
 
   def flip
-    puts "#{name}'s first card was: #{cards.first.full_name}"
+    puts "#{name}'s first card was: #{cards.first}"
   end
 end
