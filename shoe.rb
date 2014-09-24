@@ -14,7 +14,7 @@ class Shoe
     cards.pop
   end
 
-  def shuffle!
+  def prepare
     ask_number_of_decks
     suits = ['D','C','H','S']
     ranks = ['2','3','4','5','6','7','8','9','10','J','K','Q','A']
@@ -23,7 +23,6 @@ class Shoe
         cards << Card.new(suit,rank)
       end
     end
-
     cards.shuffle!
   end
 
@@ -64,6 +63,7 @@ class Card
     when 'C' then "Clubs"
     when 'H' then "Hearts"
     when 'S' then "Spades"
+    else suit
     end
 
     rank_name = case rank
@@ -80,6 +80,7 @@ class Card
     when 'K' then "King"
     when 'Q' then "Queen"
     when 'A' then "Ace"
+    else rank
     end
 
     "#{rank_name} of #{suit_name}"

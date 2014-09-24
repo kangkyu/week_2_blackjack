@@ -11,7 +11,7 @@ class ShoeGame
 
   def run
     greet
-    shoe.shuffle!
+    shoe.prepare
     first_deal
     turn_of player1
     dealer.flip
