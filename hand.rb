@@ -1,27 +1,4 @@
 module Hand
-  def check_if_blackjack
-    status
-    if total_value == 21
-      blackjack
-      exit
-    end
-  end
-
-  def check_if_busts
-    status
-    if total_value > 21
-      bust
-      exit
-    end
-  end
-
-  def status
-    puts "\n#{name} has now total value : #{total_value}"
-    cards.each do |card|
-      puts "#{card}".rjust(30)
-    end
-  end
-
   def total_value
     total = 0
     cards.each do |card|
@@ -66,6 +43,29 @@ class Person
 
   def win
     puts "#{name} wins"
+  end
+
+  def check_if_blackjack
+    status
+    if total_value == 21
+      blackjack
+      exit
+    end
+  end
+
+  def check_if_busts
+    status
+    if total_value > 21
+      bust
+      exit
+    end
+  end
+
+  def status
+    puts "\n#{name} has now total value : #{total_value}"
+    cards.each do |card|
+      puts "#{card}".rjust(30)
+    end
   end
 end
 
