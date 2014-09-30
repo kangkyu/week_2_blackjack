@@ -4,7 +4,7 @@ require_relative 'hand'
 class ShoeGame
   attr_accessor :shoe, :dealer, :player1
   def initialize
-    @shoe = Shoe.new(num_of_decks = 1)
+    @shoe = Shoe.new
     @dealer = Dealer.new
     @player1 = Player.new
   end
@@ -22,15 +22,13 @@ class ShoeGame
   def greet
     puts "Hello, before we start the game, may I have your first name?"
     player_name_input = gets.chomp
-    unless player_name_input.empty?
-      player1.name = player_name_input.capitalize
-    end
+    player1.name = player_name_input.capitalize unless player_name_input.empty?
     puts "#{dealer.name} says : Hi, #{player1.name}!"
   end
 
   def first_deal
-    player1.cards << shoe.deal_one << shoe.deal_one
-    dealer.cards << shoe.deal_one << shoe.deal_one
+    player1.cards.push shoe.deal_one, shoe.deal_one
+    dealer.cards.push shoe.deal_one, shoe.deal_one
     puts "\n#{dealer.name}'s second card showing:"
     puts "#{dealer.cards.last}".rjust(30)
   end

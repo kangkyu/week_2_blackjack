@@ -1,9 +1,9 @@
 class Shoe
-  NUM_DECKS = 6
-  attr_accessor :cards, :num_of_decks
-  def initialize(num_of_decks = NUM_DECKS)
+  DEFAULT_NUM_OF_DECKS = 6
+  
+  attr_accessor :cards
+  def initialize
     @cards = Array.new
-    @num_of_decks = 1
   end
 
   def size
@@ -15,10 +15,9 @@ class Shoe
   end
 
   def prepare
-    ask_number_of_decks
     suits = ['D','C','H','S']
     ranks = ['2','3','4','5','6','7','8','9','10','J','K','Q','A']
-    num_of_decks.times do
+    ask_number_of_decks.times do
       suits.product(ranks).each do |suit,rank| 
         cards << Card.new(suit,rank)
       end
@@ -27,14 +26,16 @@ class Shoe
   end
 
   def ask_number_of_decks
-    puts "how many decks in this game's shoe?"
+    puts "how many decks in this game's shoe? (default #{DEFAULT_NUM_OF_DECKS})"
     answer = gets.chomp
-    unless answer.empty?
+    if answer.empty?
+      DEFAULT_NUM_OF_DECKS
+    else
       if answer.to_i == 0
-        puts "please type a number"
+        puts "please type a 1,2,3 number, please!"
         ask_number_of_decks
       else
-        self.num_of_decks = answer.to_i
+        answer.to_i
       end
     end
   end

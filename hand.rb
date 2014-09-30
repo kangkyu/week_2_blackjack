@@ -13,6 +13,13 @@ module Hand
   def has_aces
     cards.select{|card| card.rank == 'A'}
   end
+  
+  def status
+    puts "\n#{name} has now total value : #{total_value}"
+    cards.each do |card|
+      puts "#{card}".rjust(30)
+    end
+  end
 end
 
 class Person
@@ -61,12 +68,6 @@ class Person
     end
   end
 
-  def status
-    puts "\n#{name} has now total value : #{total_value}"
-    cards.each do |card|
-      puts "#{card}".rjust(30)
-    end
-  end
 end
 
 class Player < Person
