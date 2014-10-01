@@ -13,9 +13,12 @@ class ShoeGame
     greet
     shoe.prepare
     first_deal
-    turn_of player1
+    puts shoe.size
+    player1.turn_with shoe.cards.pop
+    puts shoe.size
     dealer.flip
-    turn_of dealer
+    dealer.turn_with shoe.cards.pop
+    puts shoe.size
     compare_stay_value
   end
 
@@ -30,23 +33,7 @@ class ShoeGame
     player1.cards.push shoe.cards.pop, shoe.cards.pop
     dealer.cards.push shoe.cards.pop, shoe.cards.pop
     puts "\n#{dealer.name}'s second card showing:"
-    puts "#{dealer.cards.last}".rjust(30)
-  end
-
-  def turn_of(person)
-    person.status
-    person.check_if_blackjack
-    loop do
-      if person.decide_hit?
-        puts " => #{person.name} hits"
-        person.cards.push shoe.cards.pop
-        person.status
-        person.check_if_busts
-      else
-        puts " => #{person.name} stays"
-        break
-      end
-    end
+    puts "#{dealer.cards.last}".rjust(30) + "#{dealer.cards.last.face_value}".rjust(3)
   end
 
   def compare_stay_value

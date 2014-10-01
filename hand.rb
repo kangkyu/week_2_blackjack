@@ -35,11 +35,32 @@ class Person
   def has_aces
     cards.select{|card| card.rank == 'A'}
   end
-  
+
   def status
     puts "\n#{name} has now total value : #{total_value}"
     cards.each do |card|
-      puts "#{card}/t#{card.face_value}".rjust(30)
+      puts "#{card}".rjust(30) + "#{card.face_value}".rjust(3)
+    end
+  end
+  
+  def decide_hit?
+    puts "\n#{name}'s turn,"
+    ask_if_hit
+  end
+
+  def turn_with(next_card)
+    status
+    check_if_blackjack
+    loop do
+      if decide_hit?
+        puts " => #{name} hits"
+        cards.push next_card
+        status
+        check_if_busts
+      else
+        puts " => #{name} stays"
+        break
+      end
     end
   end
 end
@@ -47,11 +68,6 @@ end
 class Player < Person
   def initialize(name = 'player')
     super
-  end
-
-  def decide_hit?
-    puts "\n#{name}'s turn,"
-    ask_if_hit
   end
 
   def ask_if_hit
@@ -72,17 +88,12 @@ class Dealer < Person
     super
   end
 
-  def decide_hit?
-    puts "\n#{name}'s turn,"
+  def ask_if_hit
     sleep 1
-    hit_by_rule
-  end
-
-  def hit_by_rule
     total_value < 17
   end
 
   def flip
-    puts "#{name}'s first card was: #{cards.first}"
+    puts "#{name}'s first card was: #{cards.first}" + "#{cards.first.face_value}".rjust(3)
   end
 end
