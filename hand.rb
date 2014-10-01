@@ -22,17 +22,12 @@ class Person
   end
 
   def total_value
-    total = cards.map{|card| card.face_value}.reduce(0, :+)
-
+    total = face_value_sum
     soft_aces_count.times do
       if total > 21 
-        total -= 10 
-        cards.each do |card|
-          if card.face_value == 11
-            card.face_value = 1
-            break
-          end
-        end
+        index = cards.find_index{|card| card.face_value == 11}
+        cards[index].face_value = 1
+        total = face_value_sum
       else
         break
       end
@@ -52,7 +47,11 @@ class Person
 
 private
   def soft_aces_count
-    cards.select{|card| card.face_value == 11 }.size
+    cards.count{|card| card.face_value == 11}
+  end
+
+  def face_value_sum
+    cards.map{|card| card.face_value}.reduce(0, :+)
   end
 end
 
@@ -84,8 +83,14 @@ class Dealer < Person
     total_value < 17
   end
 
-  def flip
+  def flip_first_card
     puts "#{name}'s first card was:" 
-    puts cards.first
+    puts cards[0]
   end
+
+  def show_second_card
+    puts "#{name}'s second card showing:"
+    puts cards[1]
+  end
+      
 end

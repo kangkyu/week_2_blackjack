@@ -13,8 +13,9 @@ class ShoeGame
     greet
     shoe.prepare
     first_deal
+    dealer.show_second_card
     turn_of player1
-    dealer.flip
+    dealer.flip_first_card
     turn_of dealer
     compare_stay_value
   end
@@ -45,8 +46,6 @@ class ShoeGame
   def first_deal
     player1.cards.push shoe.cards.pop, shoe.cards.pop
     dealer.cards.push shoe.cards.pop, shoe.cards.pop
-    puts "\n#{dealer.name}'s second card showing:"
-    puts dealer.cards.last
   end
 
   def compare_stay_value
