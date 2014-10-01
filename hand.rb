@@ -22,10 +22,7 @@ class Person
   end
 
   def total_value
-    total = 0
-    cards.each do |card|
-      total += card.face_value
-    end
+    total = cards.reduce {|sum, face_value| sum + face_value }
     has_aces.each do
       total > 21 ? total -= 10 : break
     end
@@ -42,7 +39,7 @@ class Person
       puts "#{card}".rjust(30) + "#{card.face_value}".rjust(3)
     end
   end
-  
+
   def decide_hit?
     puts "\n#{name}'s turn,"
     ask_if_hit
