@@ -17,6 +17,7 @@ class ShoeGame
   def play_round
     first_deal
     dealer.show_second_card
+    person.ask_money
     turn_of player1
     dealer.flip_first_card
     turn_of dealer

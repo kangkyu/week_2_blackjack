@@ -66,6 +66,7 @@ end
 class Player < Person
   def initialize(name = 'player')
     super
+    @money = 100
   end
 
   def ask_if_hit
@@ -78,6 +79,11 @@ class Player < Person
       puts "please type 'hit' or 'stay'"
       ask_if_hit
     end
+  end
+
+  def ask_money
+    puts "how much do you bet?"
+    puts "you have #{money}"
   end
 end
 
