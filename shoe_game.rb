@@ -1,5 +1,5 @@
-require_relative 'shoe'
 require_relative 'hand'
+require_relative 'shoe'
 
 class ShoeGame
   attr_accessor :shoe, :dealer, :player1
@@ -9,7 +9,7 @@ class ShoeGame
     @player1 = Player.new
   end
 
-  def run
+  def play_round
     greet
     shoe.prepare
     first_deal
@@ -27,20 +27,23 @@ class ShoeGame
   end
 
   def first_deal
-    player1.cards.push shoe.deal_one, shoe.deal_one
-    dealer.cards.push shoe.deal_one, shoe.deal_one
+    player1.cards.push shoe.cards.pop, shoe.cards.pop
+    dealer.cards.push shoe.cards.pop, shoe.cards.pop
     puts "\n#{dealer.name}'s second card showing:"
     puts "#{dealer.cards.last}".rjust(30)
   end
 
   def turn_of(person)
+    person.status
     person.check_if_blackjack
     loop do
       if person.decide_hit?
-        person.hit shoe.deal_one
+        puts " => #{person.name} hits"
+        person.cards.push shoe.cards.pop
+        person.status
         person.check_if_busts
       else
-        person.stay
+        puts " => #{person.name} stays"
         break
       end
     end
@@ -48,18 +51,14 @@ class ShoeGame
 
   def compare_stay_value
     if dealer.total_value < player1.total_value
-      player1.win
+      puts "#{player1.name} wins"
     elsif dealer.total_value > player1.total_value
-      dealer.win
+      puts "#{dealer.name} wins"
     else
-      draw
+      puts "Round draw!"
     end
-  end
-
-  def draw
-    puts "Round draw!"
   end
 end
 
 game = ShoeGame.new
-game.run
+game.play_round

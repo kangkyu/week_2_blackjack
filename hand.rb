@@ -1,4 +1,26 @@
-module Hand
+require_relative 'card'
+
+class Person
+  attr_accessor :cards, :name
+  def initialize(name)
+    @cards = Array.new
+    @name = name.capitalize
+  end
+
+  def check_if_blackjack
+    if total_value == 21
+      puts " => #{name} blackjack"
+      exit
+    end
+  end
+
+  def check_if_busts
+    if total_value > 21
+      puts " => #{name} busts"
+      exit
+    end
+  end
+
   def total_value
     total = 0
     cards.each do |card|
@@ -17,57 +39,9 @@ module Hand
   def status
     puts "\n#{name} has now total value : #{total_value}"
     cards.each do |card|
-      puts "#{card}".rjust(30)
+      puts "#{card}/t#{card.face_value}".rjust(30)
     end
   end
-end
-
-class Person
-  include Hand
-
-  attr_accessor :cards, :name
-  def initialize(name)
-    @cards = Array.new
-    @name = name.capitalize
-  end
-
-  def hit(card)
-    puts " => #{name} hits"
-    cards << card
-  end
-
-  def stay
-    puts " => #{name} stays"
-  end
-
-  def bust
-    puts " => #{name} busts"
-  end
-
-  def blackjack
-    puts " => #{name} blackjack"
-  end
-
-  def win
-    puts "#{name} wins"
-  end
-
-  def check_if_blackjack
-    status
-    if total_value == 21
-      blackjack
-      exit
-    end
-  end
-
-  def check_if_busts
-    status
-    if total_value > 21
-      bust
-      exit
-    end
-  end
-
 end
 
 class Player < Person
