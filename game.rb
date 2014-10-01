@@ -21,7 +21,6 @@ class ShoeGame
   end
 
   def turn_of(person)
-    person.status
     person.check_if_blackjack
     loop do
       if person.instance_of?(Dealer) && dealer > player1
@@ -30,7 +29,6 @@ class ShoeGame
       elsif person.decide_hit?
         puts " => #{person.name} hits"
         person.cards << shoe.cards.pop
-        person.status
         person.check_if_busts
       else
         puts " => #{person.name} stays"
@@ -61,6 +59,7 @@ class ShoeGame
     else
       puts "Round draw!"
     end
+    exit
   end
 end
 

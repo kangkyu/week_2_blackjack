@@ -10,6 +10,7 @@ class Person
   end
 
   def check_if_blackjack
+    status
     if total_value == 21
       puts " => #{name} blackjack"
       exit
@@ -17,6 +18,7 @@ class Person
   end
 
   def check_if_busts
+    status
     if total_value > 21
       puts " => #{name} busts"
       exit
@@ -27,8 +29,8 @@ class Person
     total = face_value_sum
     soft_aces_count.times do
       if total > 21 
-        index = cards.find_index{|card| card.face_value == 11}
-        cards[index].face_value = 1
+        soft_first_at = cards.find_index{|card| card.face_value == 11}
+        cards[soft_first_at].face_value = 1
         total = face_value_sum
       else
         break
@@ -48,7 +50,7 @@ class Person
   end
 
   def <=>(other)
-    other.total_value <=> total_value
+    total_value <=> other.total_value
   end
 
 private
