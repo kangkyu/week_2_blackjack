@@ -1,4 +1,4 @@
-require_relative 'hand'
+require_relative 'person'
 require_relative 'shoe'
 
 class ShoeGame
@@ -24,12 +24,12 @@ class ShoeGame
     person.status
     person.check_if_blackjack
     loop do
-      if person.instance_of?(Dealer) && dealer.total_value > player1.total_value
+      if person.instance_of?(Dealer) && dealer > player1
         puts " => #{person.name} stays"
         break
       elsif person.decide_hit?
         puts " => #{person.name} hits"
-        person.cards.push shoe.cards.pop
+        person.cards << shoe.cards.pop
         person.status
         person.check_if_busts
       else
@@ -47,14 +47,16 @@ class ShoeGame
   end
 
   def first_deal
-    player1.cards.push shoe.cards.pop, shoe.cards.pop
-    dealer.cards.push shoe.cards.pop, shoe.cards.pop
+    player1.cards << shoe.cards.pop
+    dealer.cards << shoe.cards.pop
+    player1.cards << shoe.cards.pop
+    dealer.cards << shoe.cards.pop
   end
 
   def compare_stay_value
-    if dealer.total_value < player1.total_value
+    if dealer < player1
       puts "#{player1.name} wins"
-    elsif dealer.total_value > player1.total_value
+    elsif dealer > player1
       puts "#{dealer.name} wins"
     else
       puts "Round draw!"

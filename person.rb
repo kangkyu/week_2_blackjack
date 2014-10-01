@@ -1,6 +1,8 @@
 require_relative 'card'
 
 class Person
+  include Comparable
+
   attr_accessor :cards, :name
   def initialize(name)
     @cards = Array.new
@@ -43,6 +45,10 @@ class Person
   def decide_hit?
     puts "\n#{name}'s turn,"
     ask_if_hit
+  end
+
+  def <=>(other)
+    other.total_value <=> total_value
   end
 
 private
