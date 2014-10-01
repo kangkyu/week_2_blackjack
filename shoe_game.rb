@@ -46,7 +46,7 @@ class ShoeGame
     player1.cards.push shoe.cards.pop, shoe.cards.pop
     dealer.cards.push shoe.cards.pop, shoe.cards.pop
     puts "\n#{dealer.name}'s second card showing:"
-    puts "#{dealer.cards.last}".rjust(30)
+    puts "#{dealer.cards.last}"
   end
 
   def compare_stay_value

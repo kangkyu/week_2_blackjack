@@ -1,18 +1,18 @@
-
 class Card
-  attr_accessor :rank, :suit
+  attr_accessor :rank, :suit, :face_value
   def initialize(s,r)
     @suit = s
     @rank = r
+    @face_value = 0
   end
 
-  def face_value
+  def set_face_value
     if is_ace?
-      11
+      self.face_value = 11
     elsif rank.to_i == 0
-      10
+      self.face_value = 10
     else
-      rank.to_i
+      self.face_value = rank.to_i
     end
   end
 
@@ -46,6 +46,6 @@ class Card
     else rank
     end
 
-    "#{rank_name} of #{suit_name}" + "#{face_value}".rjust(3)
+    "#{rank_name} of #{suit_name}".rjust(30) + "#{face_value}".rjust(3)
   end
 end

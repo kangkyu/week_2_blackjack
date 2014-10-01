@@ -22,28 +22,40 @@ class Person
   end
 
   def total_value
-    total = cards.map{|card| card.face_value}.reduce{|sum, face_value| sum + face_value}
+    total = cards.map{|card| card.face_value}.reduce{|sum, num| sum + num}
 
-    aces_count.times do
-      total > 21 ? total -= 10 : break
+    soft_aces_count.times do
+      if total > 21 
+        total -= 10 
+        cards.each do |card|
+          if card.face_value == 11
+            card.face_value = 1
+            break
+          end
+        end
+      else
+        break
+      end
     end
     total
-  end
-
-  def aces_count
-    cards.select{|card| card.is_ace?}.size
   end
 
   def status
     puts "\n#{name} has now total value : #{total_value}"
     cards.each do |card|
-      puts "#{card}".rjust(30)
+      puts card
     end
   end
 
   def decide_hit?
     puts "\n#{name}'s turn,"
     ask_if_hit
+  end
+
+private
+
+  def soft_aces_count
+    cards.select{|card| card.face_value == 11 }.size
   end
 
 end
@@ -54,7 +66,7 @@ class Player < Person
   end
 
   def ask_if_hit
-    puts "hit or stay?"
+    puts "hit or stay, #{name}?"
     answer = gets.chomp
     case answer.downcase
     when 'hit', '1' then true

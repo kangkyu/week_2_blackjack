@@ -20,6 +20,7 @@ class Shoe
         cards << Card.new(suit,rank)
       end
     end
+    cards.each {|card| card.set_face_value }
     cards.shuffle!
   end
 
