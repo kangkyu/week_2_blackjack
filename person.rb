@@ -64,9 +64,10 @@ private
 end
 
 class Player < Person
+  attr_accessor :money_current
   def initialize(name = 'player')
     super
-    @money = 100
+    @money_current = 100
   end
 
   def ask_if_hit
@@ -81,9 +82,14 @@ class Player < Person
     end
   end
 
-  def ask_money
-    puts "how much do you bet?"
-    puts "you have #{money}"
+  def ask_bet
+    puts "how much do you bet? you have #{money_current}"
+    answer = gets.chomp
+    unless answer.empty?
+      answer.to_i
+    else
+      ask_bet
+    end
   end
 end
 

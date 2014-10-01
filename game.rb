@@ -17,7 +17,7 @@ class ShoeGame
   def play_round
     first_deal
     dealer.show_second_card
-    person.ask_money
+    @money_bet = player1.ask_bet
     turn_of player1
     dealer.flip_first_card
     turn_of dealer
@@ -45,11 +45,13 @@ class ShoeGame
 
   def blackjack(person)
     puts " => #{person.name} blackjack"
+    player1.money_current += @money_bet * 2 if person.instance_of?(Player)
     end_round
   end
 
   def bust(person)
     puts " => #{person.name} busts"
+    player1.money_current -= @money_bet if person.instance_of?(Player)
     end_round
   end
 
@@ -72,15 +74,19 @@ class ShoeGame
   def compare_stay_value
     if dealer < player1
       puts "#{player1.name} wins"
+      player1.money_current += @money_bet
     elsif dealer > player1
       puts "#{dealer.name} wins"
+      player1.money_current -= @money_bet
     else
       puts "Round draw!"
+      player1.money_current += 0
     end
     end_round
   end
 
   def end_round
+    puts "Now you have #{player1.money_current}"
     puts "another round? ('Yes' or 'No')"
     if ask_another_round
       play_round
