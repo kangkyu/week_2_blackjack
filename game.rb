@@ -9,9 +9,12 @@ class ShoeGame
     @player1 = Player.new
   end
 
-  def play_round
+  def game_ready
     greet
     shoe.prepare
+  end
+
+  def play_round
     first_deal
     dealer.show_second_card
     turn_of player1
@@ -21,7 +24,8 @@ class ShoeGame
   end
 
   def turn_of(person)
-    person.check_if_blackjack
+    person.status
+    blackjack(person) if person.total_value == 21
     loop do
       if person.instance_of?(Dealer) && dealer > player1
         puts " => #{person.name} stays"
@@ -29,12 +33,23 @@ class ShoeGame
       elsif person.decide_hit?
         puts " => #{person.name} hits"
         person.cards << shoe.cards.pop
-        person.check_if_busts
+        person.status
+        bust(person) if person.total_value > 21
       else
         puts " => #{person.name} stays"
         break
       end
     end
+  end
+
+  def blackjack(person)
+    puts " => #{person.name} blackjack"
+    end_round
+  end
+
+  def bust(person)
+    puts " => #{person.name} busts"
+    end_round
   end
 
   def greet
@@ -45,6 +60,8 @@ class ShoeGame
   end
 
   def first_deal
+    player1.cards.clear
+    dealer.cards.clear
     player1.cards << shoe.cards.pop
     dealer.cards << shoe.cards.pop
     player1.cards << shoe.cards.pop
@@ -59,9 +76,31 @@ class ShoeGame
     else
       puts "Round draw!"
     end
-    exit
+    end_round
+  end
+
+  def end_round
+    puts "another round? ('Yes' or 'No')"
+    if ask_another_round
+      play_round
+    else
+      puts "Bye-bye"
+      exit
+    end
+  end
+
+  def ask_another_round
+    answer = gets.chomp
+    case answer.upcase
+    when 'Y', 'YES', '1' then true
+    when 'N', 'NO', '2', "" then false
+    else
+      puts "please type 'Yes' or 'No'"
+      ask_another_round
+    end
   end
 end
 
 game = ShoeGame.new
+game.game_ready
 game.play_round
