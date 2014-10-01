@@ -7,13 +7,17 @@ class Card
   end
 
   def face_value
-    if rank == 'A'
+    if is_ace?
       11
     elsif rank.to_i == 0
       10
     else
       rank.to_i
     end
+  end
+
+  def is_ace?
+    rank == 'A'
   end
 
   def to_s

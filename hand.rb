@@ -22,15 +22,16 @@ class Person
   end
 
   def total_value
-    total = cards.reduce {|sum, face_value| sum + face_value }
-    has_aces.each do
+    total = cards.map{|card| card.face_value}.reduce{|sum, face_value| sum + face_value}
+
+    aces_count.times do
       total > 21 ? total -= 10 : break
     end
     total
   end
 
-  def has_aces
-    cards.select{|card| card.rank == 'A'}
+  def aces_count
+    cards.select{|card| card.is_ace?}.size
   end
 
   def status
@@ -45,21 +46,6 @@ class Person
     ask_if_hit
   end
 
-  def turn_with(next_card)
-    status
-    check_if_blackjack
-    loop do
-      if decide_hit?
-        puts " => #{name} hits"
-        cards.push next_card
-        status
-        check_if_busts
-      else
-        puts " => #{name} stays"
-        break
-      end
-    end
-  end
 end
 
 class Player < Person

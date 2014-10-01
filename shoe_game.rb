@@ -14,12 +14,28 @@ class ShoeGame
     shoe.prepare
     first_deal
     puts shoe.size
-    player1.turn_with shoe.cards.pop
+    turn_of player1
     puts shoe.size
     dealer.flip
-    dealer.turn_with shoe.cards.pop
+    turn_of dealer
     puts shoe.size
     compare_stay_value
+  end
+
+  def turn_of(person)
+    person.status
+    person.check_if_blackjack
+    loop do
+      if person.decide_hit?
+        puts " => #{person.name} hits"
+        person.cards.push shoe.cards.pop
+        person.status
+        person.check_if_busts
+      else
+        puts " => #{person.name} stays"
+        break
+      end
+    end
   end
 
   def greet
