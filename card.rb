@@ -46,6 +46,6 @@ class Card
     else rank
     end
 
-    "#{rank_name} of #{suit_name}"
+    "#{rank_name} of #{suit_name}" + "#{face_value}".rjust(3)
   end
 end

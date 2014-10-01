@@ -13,12 +13,9 @@ class ShoeGame
     greet
     shoe.prepare
     first_deal
-    puts shoe.size
     turn_of player1
-    puts shoe.size
     dealer.flip
     turn_of dealer
-    puts shoe.size
     compare_stay_value
   end
 
@@ -49,7 +46,7 @@ class ShoeGame
     player1.cards.push shoe.cards.pop, shoe.cards.pop
     dealer.cards.push shoe.cards.pop, shoe.cards.pop
     puts "\n#{dealer.name}'s second card showing:"
-    puts "#{dealer.cards.last}".rjust(30) + "#{dealer.cards.last.face_value}".rjust(3)
+    puts "#{dealer.cards.last}".rjust(30)
   end
 
   def compare_stay_value

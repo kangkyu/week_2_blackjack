@@ -37,7 +37,7 @@ class Person
   def status
     puts "\n#{name} has now total value : #{total_value}"
     cards.each do |card|
-      puts "#{card}".rjust(30) + "#{card.face_value}".rjust(3)
+      puts "#{card}".rjust(30)
     end
   end
 
@@ -77,6 +77,7 @@ class Dealer < Person
   end
 
   def flip
-    puts "#{name}'s first card was: #{cards.first}" + "#{cards.first.face_value}".rjust(3)
+    puts "#{name}'s first card was:" 
+    puts cards.first
   end
 end
