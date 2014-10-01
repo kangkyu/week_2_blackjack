@@ -24,7 +24,10 @@ class ShoeGame
     person.status
     person.check_if_blackjack
     loop do
-      if person.decide_hit?
+      if person.instance_of?(Dealer) && dealer.total_value > player1.total_value
+        puts " => #{person.name} stays"
+        break
+      elsif person.decide_hit?
         puts " => #{person.name} hits"
         person.cards.push shoe.cards.pop
         person.status
@@ -38,8 +41,8 @@ class ShoeGame
 
   def greet
     puts "Hello, before we start the game, may I have your first name?"
-    player_name_input = gets.chomp
-    player1.name = player_name_input.capitalize unless player_name_input.empty?
+    answer = gets.chomp
+    player1.name = answer.capitalize unless answer.empty?
     puts "#{dealer.name} says : Hi, #{player1.name}!"
   end
 
