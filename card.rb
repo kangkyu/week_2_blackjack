@@ -7,7 +7,7 @@ class Card
   end
 
   def set_face_value
-    if is_ace?
+    if rank == 'A'
       self.face_value = 11
     elsif rank.to_i == 0
       self.face_value = 10
@@ -16,20 +16,23 @@ class Card
     end
   end
 
-  def is_ace?
-    rank == 'A'
+  def to_s
+    "#{rank_name} of #{suit_name}".rjust(30) + "#{face_value}".rjust(3)
   end
 
-  def to_s
-    suit_name = case suit
+private
+  def suit_name 
+    case suit
     when 'D' then "Diamonds"
     when 'C' then "Clubs"
     when 'H' then "Hearts"
     when 'S' then "Spades"
     else suit
     end
+  end
 
-    rank_name = case rank
+  def rank_name 
+    case rank
     when '2' then "Two"
     when '3' then "Three"
     when '4' then "Four"
@@ -45,7 +48,5 @@ class Card
     when 'A' then "Ace"
     else rank
     end
-
-    "#{rank_name} of #{suit_name}".rjust(30) + "#{face_value}".rjust(3)
   end
 end

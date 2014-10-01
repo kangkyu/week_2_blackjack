@@ -22,7 +22,7 @@ class Person
   end
 
   def total_value
-    total = cards.map{|card| card.face_value}.reduce{|sum, num| sum + num}
+    total = cards.map{|card| card.face_value}.reduce(0, :+)
 
     soft_aces_count.times do
       if total > 21 
@@ -42,9 +42,7 @@ class Person
 
   def status
     puts "\n#{name} has now total value : #{total_value}"
-    cards.each do |card|
-      puts card
-    end
+    cards.each {|card| puts card}
   end
 
   def decide_hit?
@@ -53,11 +51,9 @@ class Person
   end
 
 private
-
   def soft_aces_count
     cards.select{|card| card.face_value == 11 }.size
   end
-
 end
 
 class Player < Person
