@@ -54,6 +54,7 @@ class Person
   end
 
 private
+
   def soft_aces_count
     cards.count{|card| card.face_value == 11}
   end
@@ -68,6 +69,13 @@ class Player < Person
   def initialize(name = 'player')
     super
     @money_current = 100
+  end
+
+  def greet
+    puts "Hello, before we start the game, may I have your first name?"
+    answer = gets.chomp
+    name = answer.capitalize unless answer.empty?
+    puts "Hi, #{name}!"
   end
 
   def ask_if_hit
@@ -85,10 +93,10 @@ class Player < Person
   def ask_bet
     puts "how much do you bet? you have #{money_current}"
     answer = gets.chomp
-    unless answer.empty?
-      answer.to_i
-    else
+    if answer.empty?
       ask_bet
+    else
+      answer.to_i
     end
   end
 end

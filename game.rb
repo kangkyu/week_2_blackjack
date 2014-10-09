@@ -2,7 +2,8 @@ require_relative 'person'
 require_relative 'shoe'
 
 class ShoeGame
-  attr_accessor :shoe, :dealer, :player1
+  attr_reader :shoe
+  attr_accessor :dealer, :player1
   def initialize
     @shoe = Shoe.new
     @dealer = Dealer.new
@@ -10,18 +11,27 @@ class ShoeGame
   end
 
   def game_ready
-    greet
+    player1.greet
     shoe.prepare
   end
 
-  def play_round
+  def play_a_round
+    @money_bet = player1.ask_bet
     first_deal
     dealer.show_second_card
-    @money_bet = player1.ask_bet
     turn_of player1
     dealer.flip_first_card
     turn_of dealer
     compare_stay_value
+  end
+
+  def first_deal
+    player1.cards.clear
+    dealer.cards.clear
+    player1.cards << shoe.cards.pop
+    dealer.cards << shoe.cards.pop
+    player1.cards << shoe.cards.pop
+    dealer.cards << shoe.cards.pop
   end
 
   def turn_of(person)
@@ -45,30 +55,22 @@ class ShoeGame
 
   def blackjack(person)
     puts " => #{person.name} blackjack"
-    player1.money_current += @money_bet * 2 if person.instance_of?(Player)
+    if person.instance_of?(Player)
+      player1.money_current += @money_bet * 2
+    else
+      player1.money_current -= @money_bet * 2
+    end 
     end_round
   end
 
   def bust(person)
     puts " => #{person.name} busts"
-    player1.money_current -= @money_bet if person.instance_of?(Player)
+    if person.instance_of?(Player)
+      player1.money_current -= @money_bet 
+    else
+      player1.money_current += @money_bet
+    end
     end_round
-  end
-
-  def greet
-    puts "Hello, before we start the game, may I have your first name?"
-    answer = gets.chomp
-    player1.name = answer.capitalize unless answer.empty?
-    puts "#{dealer.name} says : Hi, #{player1.name}!"
-  end
-
-  def first_deal
-    player1.cards.clear
-    dealer.cards.clear
-    player1.cards << shoe.cards.pop
-    dealer.cards << shoe.cards.pop
-    player1.cards << shoe.cards.pop
-    dealer.cards << shoe.cards.pop
   end
 
   def compare_stay_value
@@ -89,7 +91,7 @@ class ShoeGame
     puts "Now you have #{player1.money_current}"
     puts "another round? ('Yes' or 'No')"
     if ask_another_round
-      play_round
+      play_a_round
     else
       puts "Bye-bye"
       exit
@@ -100,7 +102,7 @@ class ShoeGame
     answer = gets.chomp
     case answer.upcase
     when 'Y', 'YES', '1' then true
-    when 'N', 'NO', '2', "" then false
+    when 'N', 'NO', '2', 'QUIT', "" then false
     else
       puts "please type 'Yes' or 'No'"
       ask_another_round
@@ -110,4 +112,4 @@ end
 
 game = ShoeGame.new
 game.game_ready
-game.play_round
+game.play_a_round

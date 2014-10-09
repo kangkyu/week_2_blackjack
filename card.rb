@@ -1,5 +1,6 @@
 class Card
-  attr_accessor :rank, :suit, :face_value
+  attr_reader :rank, :suit 
+  attr_accessor :face_value
   def initialize(s,r)
     @suit = s
     @rank = r
@@ -21,6 +22,7 @@ class Card
   end
 
 private
+
   def suit_name 
     case suit
     when 'D' then "Diamonds"
