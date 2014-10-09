@@ -66,9 +66,9 @@ end
 
 class Player < Person
   attr_accessor :money_current
-  def initialize(name = 'player')
-    super
-    @money_current = 100
+  def initialize(name = 'player', money = 100)
+    super(name)
+    @money_current = money
   end
 
   def greet

@@ -9,7 +9,7 @@ describe "Player" do
 
 
   it "has an initial money" do  
-    player1 = Player.new("larry", 100)
+    player1 = Player.new("larry",100)
     player1.money_current.should == 100
   end
 end
