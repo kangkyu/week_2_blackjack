@@ -21,8 +21,6 @@ class Card
     "#{rank_name} of #{suit_name}".rjust(30) + "#{face_value}".rjust(3)
   end
 
-private
-
   def suit_name 
     case suit
     when 'D' then "Diamonds"
