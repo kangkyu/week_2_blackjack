@@ -2,6 +2,8 @@ require_relative 'person'
 require_relative 'shoe'
 
 class ShoeGame
+  DEFAULT_NUM_OF_DECKS = 6
+
   attr_reader :shoe
   attr_accessor :dealer, :player1
   def initialize
@@ -12,6 +14,7 @@ class ShoeGame
 
   def game_ready
     player1.greet
+    shoe.number_of_decks = ask_number_of_decks
     shoe.prepare
   end
 
@@ -106,6 +109,21 @@ class ShoeGame
     else
       puts "please type 'Yes' or 'No'"
       ask_another_round
+    end
+  end
+
+  def ask_number_of_decks
+    puts "how many decks in this game's shoe? (default #{DEFAULT_NUM_OF_DECKS})"
+    answer = gets.chomp
+    if answer.empty?
+      DEFAULT_NUM_OF_DECKS
+    else
+      if answer.to_i == 0
+        puts "please type a 1,2,3 number, please!"
+        ask_number_of_decks
+      else
+        answer.to_i
+      end
     end
   end
 end
