@@ -18,7 +18,7 @@ class ShoeGame
     shoe.prepare
   end
 
-  def play_a_round
+  def play_round
     @money_bet = player1.ask_bet
     first_deal
     dealer.show_second_card
@@ -93,22 +93,22 @@ class ShoeGame
   def end_round
     puts "Now you have #{player1.money_current}"
     puts "another round? ('Yes' or 'No')"
-    if ask_another_round
-      play_a_round
+    if another_round?
+      play_round
     else
       puts "Bye-bye"
       exit
     end
   end
 
-  def ask_another_round
+  def another_round?
     answer = gets.chomp
     case answer.upcase
     when 'Y', 'YES', '1' then true
-    when 'N', 'NO', '2', 'QUIT', "" then false
+    when 'N', 'NO', '2', 'EXIT', "" then false
     else
       puts "please type 'Yes' or 'No'"
-      ask_another_round
+      another_round?
     end
   end
 
@@ -130,4 +130,4 @@ end
 
 game = ShoeGame.new
 game.game_ready
-game.play_a_round
+game.play_round

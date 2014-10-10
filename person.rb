@@ -1,42 +1,14 @@
 require_relative 'card'
+require_relative 'hand'
 
 class Person
   include Comparable
+  include Hand
 
   attr_accessor :cards, :name
   def initialize(name)
     @cards = Array.new
     @name = name.capitalize
-  end
-
-  def check_if_blackjack
-    status
-    if total_value == 21
-      puts " => #{name} blackjack"
-      exit
-    end
-  end
-
-  def check_if_busts
-    status
-    if total_value > 21
-      puts " => #{name} busts"
-      exit
-    end
-  end
-
-  def total_value
-    total = face_value_sum
-    soft_aces_count.times do
-      if total > 21 
-        soft_first_at = cards.find_index{|card| card.face_value == 11}
-        cards[soft_first_at].face_value = 1
-        total = face_value_sum
-      else
-        break
-      end
-    end
-    total
   end
 
   def status
@@ -51,16 +23,6 @@ class Person
 
   def <=>(other)
     total_value <=> other.total_value
-  end
-
-private
-
-  def soft_aces_count
-    cards.count{|card| card.face_value == 11}
-  end
-
-  def face_value_sum
-    cards.map{|card| card.face_value}.reduce(0, :+)
   end
 end
 
