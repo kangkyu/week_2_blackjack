@@ -16,6 +16,7 @@ class ShoeGame
     player1.greet
     shoe.number_of_decks = ask_number_of_decks
     shoe.prepare
+    puts shoe.size
   end
 
   def play_round

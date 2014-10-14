@@ -7,13 +7,13 @@ class Card
     @face_value = 0
   end
 
-  def set_face_value
-    if rank == 'A'
-      self.face_value = 11
+  def face_value 
+    if rank.include? 'A'
+      11
     elsif rank.to_i == 0
-      self.face_value = 10
+      10
     else
-      self.face_value = rank.to_i
+      rank.to_i
     end
   end
 
