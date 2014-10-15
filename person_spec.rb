@@ -12,4 +12,20 @@ describe "Player" do
     player1 = Player.new("larry",100)
     player1.money_current.should == 100
   end
+
+  context "soft aces counted as 1" do
+    it "has total value of 12 when have two Aces" do
+      player1 = Player.new
+      player1.cards = [Card.new('H','A'), Card.new('S','A')]
+      player1.cards.each {|card| card.set_face_value }
+      player1.total_value.should == 12
+    end
+
+    it "has total value not over 21 for three cards include an ace" do
+      player1 = Player.new
+      player1.cards = [Card.new('H','A'), Card.new('S','10'), Card.new('S','Q')]
+      player1.cards.each {|card| card.set_face_value }
+      player1.total_value.should == 1 + 10 + 10
+    end
+  end
 end

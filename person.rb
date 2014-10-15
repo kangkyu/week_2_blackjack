@@ -16,11 +16,6 @@ class Person
     cards.each {|card| puts card}
   end
 
-  def decide_hit?
-    puts "\n#{name}'s turn,"
-    ask_if_hit
-  end
-
   def <=>(other)
     total_value <=> other.total_value
   end
@@ -40,15 +35,15 @@ class Player < Person
     puts "Hi, #{name}!"
   end
 
-  def ask_if_hit
+  def hit?
     puts "hit or stay, #{name}?"
     answer = gets.chomp
     case answer.downcase
-    when 'hit', '1' then true
-    when 'stay', '2' then false
+    when 'hit', 'h', '1' then true
+    when 'stay', 's' ,'2' then false
     else
       puts "please type 'hit' or 'stay'"
-      ask_if_hit
+      hit?
     end
   end
 
@@ -68,7 +63,7 @@ class Dealer < Person
     super
   end
 
-  def ask_if_hit
+  def hit?
     sleep 1
     total_value < 17
   end

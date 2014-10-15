@@ -7,8 +7,8 @@ class Card
     @face_value = 0
   end
 
-  def face_value 
-    if rank.include? 'A'
+  def set_face_value 
+    self.face_value = if rank.include? 'A'
       11
     elsif rank.to_i == 0
       10

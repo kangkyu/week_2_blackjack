@@ -3,13 +3,8 @@ require_relative 'card'
 class Shoe
   # include Sizable
   
-  attr_accessor :cards, :number_of_decks
-  def initialize
-    @number_of_decks
-    @cards = Array.new
-  end
-
-  def prepare
+  attr_accessor :cards
+  def initialize(number_of_decks)
     table_deck = []
     number_of_decks.times {table_deck.push *(Deck.new.cards)}
     @cards = table_deck.shuffle!

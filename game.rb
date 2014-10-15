@@ -7,16 +7,14 @@ class ShoeGame
   attr_reader :shoe
   attr_accessor :dealer, :player1
   def initialize
-    @shoe = Shoe.new
+    @shoe = Shoe.new(DEFAULT_NUM_OF_DECKS)
     @dealer = Dealer.new
     @player1 = Player.new
   end
 
   def game_ready
     player1.greet
-    shoe.number_of_decks = ask_number_of_decks
-    shoe.prepare
-    puts shoe.size
+    shoe.cards.each {|card| card.set_face_value }
   end
 
   def play_round
@@ -41,11 +39,12 @@ class ShoeGame
   def turn_of(person)
     person.status
     blackjack(person) if person.total_value == 21
+    puts "\n#{person.name}'s turn,"
     loop do
-      if person.instance_of?(Dealer) && dealer > player1
+      if person.instance_of?(Dealer) && dealer >= player1
         puts " => #{person.name} stays"
         break
-      elsif person.decide_hit?
+      elsif person.hit?
         puts " => #{person.name} hits"
         person.cards << shoe.cards.pop
         person.status
@@ -85,7 +84,7 @@ class ShoeGame
       puts "#{dealer.name} wins"
       player1.money_current -= @money_bet
     else
-      puts "Round draw!"
+      puts "Push!"
       player1.money_current += 0
     end
     end_round
@@ -106,27 +105,13 @@ class ShoeGame
     answer = gets.chomp
     case answer.upcase
     when 'Y', 'YES', '1' then true
-    when 'N', 'NO', '2', 'EXIT', "" then false
+    when 'N', 'NO', '2', 'EXIT', "", "QUIT" then false
     else
       puts "please type 'Yes' or 'No'"
       another_round?
     end
   end
 
-  def ask_number_of_decks
-    puts "how many decks in this game's shoe? (default #{DEFAULT_NUM_OF_DECKS})"
-    answer = gets.chomp
-    if answer.empty?
-      DEFAULT_NUM_OF_DECKS
-    else
-      if answer.to_i == 0
-        puts "please type a 1,2,3 number, please!"
-        ask_number_of_decks
-      else
-        answer.to_i
-      end
-    end
-  end
 end
 
 game = ShoeGame.new
