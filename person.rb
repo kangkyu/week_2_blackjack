@@ -22,8 +22,10 @@ class Person
 end
 
 class Player < Person
+  START_AMOUNT = 100
+
   attr_accessor :money_current
-  def initialize(name = 'player', money = 100)
+  def initialize(name = 'player', money = START_AMOUNT)
     super(name)
     @money_current = money
   end
@@ -47,11 +49,11 @@ class Player < Person
     end
   end
 
-  def ask_bet
+  def ask_bet_much
     puts "how much do you bet? you have #{money_current}"
     answer = gets.chomp
     if answer.empty?
-      ask_bet
+      ask_bet_much
     else
       answer.to_i
     end
@@ -77,5 +79,4 @@ class Dealer < Person
     puts "#{name}'s second card showing:"
     puts cards[1]
   end
-      
 end

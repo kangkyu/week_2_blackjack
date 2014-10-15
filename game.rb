@@ -7,7 +7,7 @@ class ShoeGame
   attr_reader :shoe
   attr_accessor :dealer, :player1
   def initialize
-    @shoe = Shoe.new(DEFAULT_NUM_OF_DECKS)
+    @shoe = Shoe.new(number_of_decks = DEFAULT_NUM_OF_DECKS)
     @dealer = Dealer.new
     @player1 = Player.new
   end
@@ -18,7 +18,7 @@ class ShoeGame
   end
 
   def play_round
-    @money_bet = player1.ask_bet
+    @money_bet = player1.ask_bet_much
     first_deal
     dealer.show_second_card
     turn_of player1
@@ -30,10 +30,10 @@ class ShoeGame
   def first_deal
     player1.cards.clear
     dealer.cards.clear
-    player1.cards << shoe.cards.pop
-    dealer.cards << shoe.cards.pop
-    player1.cards << shoe.cards.pop
-    dealer.cards << shoe.cards.pop
+    player1.cards << shoe.deal_one
+    dealer.cards << shoe.deal_one
+    player1.cards << shoe.deal_one
+    dealer.cards << shoe.deal_one
   end
 
   def turn_of(person)
@@ -41,12 +41,12 @@ class ShoeGame
     blackjack(person) if person.total_value == 21
     puts "\n#{person.name}'s turn,"
     loop do
-      if person.instance_of?(Dealer) && dealer >= player1
+      if person.is_a?(Dealer) && dealer >= player1
         puts " => #{person.name} stays"
         break
       elsif person.hit?
         puts " => #{person.name} hits"
-        person.cards << shoe.cards.pop
+        person.cards << shoe.deal_one
         person.status
         bust(person) if person.total_value > 21
       else
@@ -58,7 +58,7 @@ class ShoeGame
 
   def blackjack(person)
     puts " => #{person.name} blackjack"
-    if person.instance_of?(Player)
+    if person.is_a?(Player)
       player1.money_current += @money_bet * 2
     else
       player1.money_current -= @money_bet * 2
@@ -68,7 +68,7 @@ class ShoeGame
 
   def bust(person)
     puts " => #{person.name} busts"
-    if person.instance_of?(Player)
+    if person.is_a?(Player)
       player1.money_current -= @money_bet 
     else
       player1.money_current += @money_bet
@@ -97,21 +97,24 @@ class ShoeGame
       play_round
     else
       puts "Bye-bye"
-      exit
+      end_game
     end
   end
 
   def another_round?
     answer = gets.chomp
-    case answer.upcase
-    when 'Y', 'YES', '1' then true
-    when 'N', 'NO', '2', 'EXIT', "", "QUIT" then false
+    case answer.downcase
+    when 'y', 'yes', '1' then true
+    when 'n', 'no', '2', 'exit', "quit", "" then false
     else
       puts "please type 'Yes' or 'No'"
       another_round?
     end
   end
 
+  def end_game
+    exit
+  end
 end
 
 game = ShoeGame.new

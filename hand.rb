@@ -3,18 +3,13 @@ require_relative 'card'
 module Hand
 
   def total_value
-    total = face_value_sum
     soft_aces_count.times do
-      if total > 21 
-        soft_first_at = cards.find_index{|card| card.face_value == 11}
-        cards[soft_first_at].face_value = 1
-        total = face_value_sum
-      else
-        break
-      end
+      cards[soft_first_at].face_value = 1 if face_value_sum > 21 
     end
-    total
+    face_value_sum
   end
+  
+  private
   
   def soft_aces_count
     cards.count{|card| card.face_value == 11}
@@ -22,5 +17,9 @@ module Hand
 
   def face_value_sum
     cards.map{|card| card.face_value}.reduce(0, :+)
+  end
+
+  def soft_first_at
+    cards.find_index{|card| card.face_value == 11}
   end
 end
