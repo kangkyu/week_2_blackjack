@@ -5,4 +5,11 @@ describe "Shoe" do
     shoe1 = Shoe.new(7)
     shoe1.size.should == 364
   end
+
+  it "deals one card at a time" do
+    cards = []
+    shoe1 = Shoe.new
+    cards.push shoe1.deal_one
+    cards.size.should == 1
+  end
 end

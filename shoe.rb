@@ -2,7 +2,7 @@ require_relative 'card'
 
 class Shoe
   attr_accessor :cards
-  def initialize(number_of_decks)
+  def initialize(number_of_decks = 6)
     table_deck = []
     number_of_decks.times {table_deck.push *(Deck.new.cards)}
     @cards = table_deck.shuffle!

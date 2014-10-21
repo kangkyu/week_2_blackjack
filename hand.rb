@@ -8,6 +8,27 @@ module Hand
     end
     face_value_sum
   end
+
+  def status
+    puts "\n#{name} has now total value : #{total_value}"
+    cards.each {|card| puts card}
+  end
+
+  def <=>(other)
+    total_value <=> other.total_value
+  end
+
+  def clear
+    cards.clear
+  end
+
+  def push(*arg)
+    cards.push(*arg)
+  end
+  
+  def <<(arg)
+    cards << arg
+  end
   
   private
   

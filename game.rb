@@ -28,12 +28,12 @@ class ShoeGame
   end
 
   def first_deal
-    player1.cards.clear
-    dealer.cards.clear
-    player1.cards << shoe.deal_one
-    dealer.cards << shoe.deal_one
-    player1.cards << shoe.deal_one
-    dealer.cards << shoe.deal_one
+    player1.clear
+    dealer.clear
+    player1 << shoe.deal_one
+    dealer << shoe.deal_one
+    player1 << shoe.deal_one
+    dealer << shoe.deal_one
   end
 
   def turn_of(person)
@@ -41,12 +41,12 @@ class ShoeGame
     blackjack(person) if person.total_value == 21
     puts "\n#{person.name}'s turn,"
     loop do
-      if person.is_a?(Dealer) && dealer >= player1
+      if person.is_a?(Dealer) && dealer > player1
         puts " => #{person.name} stays"
         break
       elsif person.hit?
         puts " => #{person.name} hits"
-        person.cards << shoe.deal_one
+        person << shoe.deal_one
         person.status
         bust(person) if person.total_value > 21
       else

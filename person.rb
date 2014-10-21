@@ -10,15 +10,6 @@ class Person
     @cards = Array.new
     @name = name.capitalize
   end
-
-  def status
-    puts "\n#{name} has now total value : #{total_value}"
-    cards.each {|card| puts card}
-  end
-
-  def <=>(other)
-    total_value <=> other.total_value
-  end
 end
 
 class Player < Person
