@@ -1,4 +1,5 @@
-require_relative 'person'
+require_relative 'dealer'
+require_relative 'player'
 require_relative 'shoe'
 
 class ShoeGame
@@ -116,7 +117,3 @@ class ShoeGame
     exit
   end
 end
-
-game = ShoeGame.new
-game.game_ready
-game.play_round
