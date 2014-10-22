@@ -15,6 +15,12 @@ class Shoe
   def size
     cards.size
   end
+
+  def each_card
+    @cards.each do |card|
+      yield card
+    end
+  end
 end
 
 class Deck

@@ -7,14 +7,14 @@ class ShoeGame
   attr_reader :shoe
   attr_accessor :dealer, :player1
   def initialize
-    @shoe = Shoe.new(number_of_decks = DEFAULT_NUM_OF_DECKS)
+    @shoe = Shoe.new(DEFAULT_NUM_OF_DECKS)
     @dealer = Dealer.new
     @player1 = Player.new
   end
 
   def game_ready
     player1.greet
-    shoe.cards.each {|card| card.set_face_value }
+    shoe.each_card {|card| card.set_face_value }
   end
 
   def play_round
