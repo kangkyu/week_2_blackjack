@@ -1,0 +1,7 @@
+#! /usr/bin/env ruby
+
+require_relative '../lib/shoe_game'
+
+blackjack = ShoeGame.new
+blackjack.game_ready
+blackjack.play_round

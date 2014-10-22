@@ -1,4 +1,4 @@
-require_relative 'shoe'
+require 'shoe'
 
 describe "Shoe" do
   it "has number of cards of 52 multiplied by number of decks" do
