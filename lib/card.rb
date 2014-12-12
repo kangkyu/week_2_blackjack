@@ -4,7 +4,7 @@ class Card
   def initialize(s,r)
     @suit = s
     @rank = r
-    @face_value = 0
+    @face_value = nil
   end
 
   def set_face_value 

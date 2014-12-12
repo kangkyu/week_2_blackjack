@@ -14,7 +14,7 @@ class ShoeGame
   end
 
   def game_ready
-    player1.greet
+    # player1.greet
     shoe.each_card {|card| card.set_face_value }
   end
 

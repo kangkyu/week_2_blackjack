@@ -1,4 +1,4 @@
-require_relative 'card'
+require_relative 'shoe'
 
 module Hand
   def total_value

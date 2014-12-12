@@ -1,4 +1,4 @@
-require 'player'
+require 'shoe_game'
 
 describe "Player" do
 
@@ -7,10 +7,16 @@ describe "Player" do
     player1.name.should == "Larry"
   end
 
-
   it "has an initial money" do  
     player1 = Player.new("larry",100)
     player1.money_current.should == 100
+  end
+
+  it "gets cards with face value" do
+    game = ShoeGame.new
+    game.game_ready
+    game.player1 << game.shoe.deal_one
+    expect(game.player1.cards.first.face_value).not_to be_nil
   end
 
   context "soft aces counted as 1" do
