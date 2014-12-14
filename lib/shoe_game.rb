@@ -1,6 +1,5 @@
 require_relative 'dealer'
 require_relative 'player'
-require_relative 'shoe'
 
 class ShoeGame
   DEFAULT_NUM_OF_DECKS = 6
@@ -13,9 +12,21 @@ class ShoeGame
     @player1 = Player.new
   end
 
+  def set_face_value(card)
+    card.face_value = 
+    if card.rank.include? 'A'
+      11
+    elsif card.rank.to_i == 0
+      10
+    else
+      card.rank.to_i
+    end
+  end
+
   def game_ready
+    @shoe.cards.each {|card| set_face_value(card)}
     # player1.greet
-    shoe.each_card {|card| card.set_face_value }
+    # shoe.each_card {|card| card.set_face_value }
   end
 
   def play_round

@@ -4,22 +4,14 @@ class Card
   def initialize(s,r)
     @suit = s
     @rank = r
-    @face_value = nil
-  end
-
-  def set_face_value 
-    self.face_value = if rank.include? 'A'
-      11
-    elsif rank.to_i == 0
-      10
-    else
-      rank.to_i
-    end
+    @face_value = 0
   end
 
   def to_s
-    "#{rank_name} of #{suit_name}".rjust(30) + "#{face_value}".rjust(3)
+    "#{rank_name} of #{suit_name}".rjust(30)
   end
+
+  private 
 
   def suit_name 
     case suit
