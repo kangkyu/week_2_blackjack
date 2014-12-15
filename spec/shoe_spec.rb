@@ -2,14 +2,14 @@ require 'shoe'
 
 describe "Shoe" do
 
-  it "has number of cards of 52 multiplied by number of decks" do
+  it "has cards of 52 multiplied by number of decks" do
     shoe1 = Shoe.new(7)
-    expect(shoe1.cards.count).to eq(52*7)
+    expect(shoe1.card_count).to eq(52*7)
   end
 
   it "has 6 decks as default" do
     shoe1 = Shoe.new
-    expect(shoe1.cards.count).to eq(52*6)
+    expect(shoe1.card_count).to eq(52*6)
   end
 
   it "has 4 different suits" do
@@ -42,8 +42,8 @@ describe "Shoe" do
   end
 
   it "has deal_one method to deal one card at a time" do
-    hand = []
     shoe1 = Shoe.new
+    hand = []
     hand.push shoe1.deal_one
     expect(hand.count).to eq(1)
   end

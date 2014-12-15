@@ -5,15 +5,20 @@ class Shoe
   
   attr_accessor :cards
   def initialize(num_of_decks=6)
-    cards = []
-    num_of_decks.times do
+    @num_of_decks = num_of_decks
+    @cards = []
+    prepare
+  end
+
+  def prepare
+    @num_of_decks.times do
       cards.push *(Deck.new.cards)
     end
-    @cards = cards
+    cards.shuffle!
   end
 
   def deal_one
-    @cards.pop
+    cards.pop
   end
 end
 

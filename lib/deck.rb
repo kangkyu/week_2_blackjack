@@ -27,8 +27,8 @@ class Deck
 
   def prepare
     SUITS.product(RANKS).each do |suit,rank|
-      @cards << Card.new(suit,rank)
+      cards << Card.new(suit,rank)
     end
-    @cards.shuffle!
+    cards.shuffle!
   end
 end
