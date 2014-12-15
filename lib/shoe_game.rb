@@ -2,15 +2,14 @@ require_relative 'dealer'
 require_relative 'player'
 
 class ShoeGame
-  attr_reader :shoe
-  attr_accessor :dealer, :player1
+  attr_accessor :shoe, :dealer, :player1
   def initialize
     @shoe = Shoe.new
     @dealer = Dealer.new
     @player1 = Player.new
   end
 
-  def face_value_of_all_cards
+  def assign_face_value_of_all_cards
     shoe.each_card do |card|
       card.face_value = 
       if card.rank.include? 'A'
@@ -25,13 +24,14 @@ class ShoeGame
 
   def greet_player
     puts "Hello, before we start the game, may I have your first name?"
-    player1.name ||= gets.chomp.capitalize
+    answer = gets.chomp
+    @player1.name ||= answer.capitalize
     puts "Hi, #{player1.name}!"
   end
 
   def game_ready
-    greet_player
-    face_value_of_all_cards
+    # greet_player
+    assign_face_value_of_all_cards
   end
 
   def play_round

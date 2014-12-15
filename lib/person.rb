@@ -1,6 +1,7 @@
 require_relative 'shoe'
 
 module Hand
+
   def total_value
     soft_aces_count.times do
       cards[soft_first_at].face_value = 1 if face_value_sum > 21 
@@ -54,4 +55,3 @@ class Person
     @name = name.capitalize
   end
 end
-

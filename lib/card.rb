@@ -1,44 +1,15 @@
 class Card
-  attr_reader :rank, :suit 
+  SUIT_NAME = {'D' => "Diamonds", 'C' => "Clubs", 'H' => "Hearts", 'S' => "Spades" }
+  RANK_NAME = {'2' => "Two", '3' => "Three", '4' => "Four", '5' => "Five", '6' => "Six", '7' => "Seven", '8' => "Eight", '9' => "Nine", '10' => "Ten", 'J' => "Jack", 'K' => "King", 'Q' => "Queen", 'A' => "Ace" }
+  attr_reader :rank, :suit
   attr_accessor :face_value
+
   def initialize(s,r)
-    @suit = s
-    @rank = r
+    @suit,@rank = s,r
     @face_value = 0
   end
 
   def to_s
-    "#{rank_name} of #{suit_name}".rjust(30)
-  end
-
-  private 
-
-  def suit_name 
-    case suit
-    when 'D' then "Diamonds"
-    when 'C' then "Clubs"
-    when 'H' then "Hearts"
-    when 'S' then "Spades"
-    else suit
-    end
-  end
-
-  def rank_name 
-    case rank
-    when '2' then "Two"
-    when '3' then "Three"
-    when '4' then "Four"
-    when '5' then "Five"
-    when '6' then "Six"
-    when '7' then "Seven"
-    when '8' then "Eight"
-    when '9' then "Nine"
-    when '10' then "Ten"
-    when 'J' then "Jack"
-    when 'K' then "King"
-    when 'Q' then "Queen"
-    when 'A' then "Ace"
-    else rank
-    end
+    "#{RANK_NAME[@rank]} of #{SUIT_NAME[@suit]}".rjust(30) + "#{@face_value}".rjust(3)
   end
 end
