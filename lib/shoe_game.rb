@@ -54,7 +54,7 @@ class ShoeGame
 
   def turn_of(person)
     person.status
-    blackjack(person) if person.total_value == 21
+    blackjack(person) if person.hand.total_value == 21
     puts "\n#{person.name}'s turn,"
     loop do
       if person.is_a?(Dealer) && dealer > player1
@@ -64,7 +64,7 @@ class ShoeGame
         puts " => #{person.name} hits"
         person << shoe.deal_one
         person.status
-        bust(person) if person.total_value > 21
+        bust(person) if person.hand.total_value > 21
       else
         puts " => #{person.name} stays"
         break

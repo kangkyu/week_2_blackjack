@@ -1,6 +1,12 @@
 require_relative 'shoe'
 
-module Hand
+class Hand
+  include WithMultipleCards
+
+  attr_accessor :cards
+  def initialize
+    @cards = []
+  end
 
   def total_value
     soft_aces_count.times do
@@ -9,27 +15,6 @@ module Hand
     face_value_sum
   end
 
-  def status
-    puts "\n#{name} has now total value : #{total_value}"
-    cards.each {|card| puts card}
-  end
-
-  def <=>(other)
-    total_value <=> other.total_value
-  end
-
-  def clear
-    cards.clear
-  end
-
-  def push(*arg)
-    cards.push(*arg)
-  end
-  
-  def <<(arg)
-    cards << arg
-  end
-  
   private
   
   def soft_aces_count
@@ -47,17 +32,36 @@ end
 
 class Person
   include Comparable
-  include Hand
-  include WithMultipleCards
 
-  attr_accessor :cards, :name
+  attr_accessor :hand, :name
   def initialize(name)
-    @cards = []
     @name = name.capitalize
+    @hand = Hand.new
   end
 
   def hit?
     decide_hit
+  end
+
+  def status
+    puts "\n#{name} has now total value : #{hand.total_value}"
+    hand.each_card {|card| puts card}
+  end
+
+  def <=>(other)
+    hand.total_value <=> other.hand.total_value
+  end
+
+  def clear
+    hand.cards.clear
+  end
+
+  def push(*arg)
+    hand.cards.push(*arg)
+  end
+
+  def <<(arg)
+    hand.cards << arg
   end
 end
 
@@ -100,16 +104,16 @@ class Dealer < Person
 
   def decide_hit
     sleep 1
-    total_value < 17
+    hand.total_value < 17
   end
 
   def flip_first_card
     puts "#{name}'s first card was:"
-    puts cards[0]
+    puts hand.cards[0]
   end
 
   def show_second_card
     puts "#{name}'s second card showing:"
-    puts cards[1]
+    puts hand.cards[1]
   end
 end

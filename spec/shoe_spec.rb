@@ -50,6 +50,6 @@ describe "Shoe" do
 
   it "has size method to count all cards in it" do
     shoe1 = Shoe.new
-    expect(shoe1.size).to eq(shoe1.cards.count)
+    expect(shoe1.card_count).to eq(shoe1.cards.count)
   end
 end
