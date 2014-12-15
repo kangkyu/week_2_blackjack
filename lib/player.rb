@@ -9,7 +9,7 @@ class Player < Person
     @money_current = money
   end
 
-  def hit?
+  def decide_hit
     puts "hit or stay, #{name}?"
     answer = gets.chomp
     case answer.downcase
@@ -17,7 +17,7 @@ class Player < Person
     when 'stay', 's' ,'2' then false
     else
       puts "please type 'hit' or 'stay'"
-      hit?
+      decide_hit
     end
   end
 

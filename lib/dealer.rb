@@ -5,7 +5,7 @@ class Dealer < Person
     super
   end
 
-  def hit?
+  def decide_hit
     sleep 1
     total_value < 17
   end

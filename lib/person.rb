@@ -54,4 +54,8 @@ class Person
     @cards = Array.new
     @name = name.capitalize
   end
+
+  def hit?
+    decide_hit
+  end
 end
