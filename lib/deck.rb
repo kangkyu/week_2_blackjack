@@ -7,6 +7,10 @@ module WithMultipleCards
       yield card
     end
   end
+
+  def card_count
+    @cards.size
+  end
 end
 
 class Deck

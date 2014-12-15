@@ -6,7 +6,8 @@ describe "Shoe Game" do
   end
 
   # game rule
-  context "has its game rules as such" do
+  context "cards have their face values" do
+
     it "all the cards with its face value integer" do
       @game.game_ready
       @game.shoe.each_card do |card|
@@ -23,8 +24,17 @@ describe "Shoe Game" do
   end
   
 
+  context "each player ready for the game" do
+
+    it "has initial money more than 0 for the game" do
+      # @game.player1 = Player.new('larry')
+      expect(@game.player1.money_current).not_to be_zero
+    end
+  end
+
   context "soft aces counted as 1" do
-    # it "has total value of 12 when have two Aces" # do
+
+  #   it "has total value of 12 when have two Aces" do
   #     player1 = Player.new
   #     player1.cards = [Card.new('H','A'), Card.new('S','A')]
   #     player1.cards.each {|card| card.set_face_value }

@@ -15,9 +15,5 @@ class Shoe
   def deal_one
     @cards.pop
   end
-
-  def size
-    @cards.size
-  end
 end
 

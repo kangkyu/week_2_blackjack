@@ -1,5 +1,4 @@
-require_relative 'dealer'
-require_relative 'player'
+require_relative 'person'
 
 class ShoeGame
   attr_accessor :shoe, :dealer, :player1
