@@ -2,31 +2,36 @@ require_relative 'dealer'
 require_relative 'player'
 
 class ShoeGame
-  DEFAULT_NUM_OF_DECKS = 6
-
   attr_reader :shoe
   attr_accessor :dealer, :player1
   def initialize
-    @shoe = Shoe.new(DEFAULT_NUM_OF_DECKS)
+    @shoe = Shoe.new
     @dealer = Dealer.new
     @player1 = Player.new
   end
 
-  def set_face_value(card)
-    card.face_value = 
-    if card.rank.include? 'A'
-      11
-    elsif card.rank.to_i == 0
-      10
-    else
-      card.rank.to_i
+  def face_value_of_all_cards
+    shoe.each_card do |card|
+      card.face_value = 
+      if card.rank.include? 'A'
+        11
+      elsif card.rank.to_i == 0
+        10
+      else
+        card.rank.to_i
+      end
     end
   end
 
+  def greet_player
+    puts "Hello, before we start the game, may I have your first name?"
+    player1.name ||= gets.chomp.capitalize
+    puts "Hi, #{player1.name}!"
+  end
+
   def game_ready
-    @shoe.cards.each {|card| set_face_value(card)}
-    # player1.greet
-    # shoe.each_card {|card| card.set_face_value }
+    greet_player
+    face_value_of_all_cards
   end
 
   def play_round

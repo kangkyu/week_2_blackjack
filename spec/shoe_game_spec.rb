@@ -1,27 +1,30 @@
 require 'shoe_game'
 
 describe "Shoe Game" do
-
   before do
     @game = ShoeGame.new
-    @game.game_ready
   end
 
   # game rule
-  it "has all the cards with its face value integer" do
-    @game.shoe.each_card do |card|
-      expect(card.face_value.is_a?(Integer)).to eq(true)
+  context "has its game rules as such" do
+    it "all the cards with its face value integer" do
+      @game.game_ready
+      @game.shoe.each_card do |card|
+        expect(card.face_value.is_a?(Integer)).to eq(true)
+      end
+    end
+
+    it "all the face values are not zero" do
+      @game.game_ready
+      @game.shoe.each_card do |card|
+        expect(card.face_value).not_to be_zero
+      end
     end
   end
+  
 
-  it "all the face values are not zero" do
-    @game.shoe.each_card do |card|
-      expect(card.face_value).not_to be_zero
-    end
-  end
-
-  # context "soft aces counted as 1" do
-  #   it "has total value of 12 when have two Aces" do
+  context "soft aces counted as 1" do
+    # it "has total value of 12 when have two Aces" # do
   #     player1 = Player.new
   #     player1.cards = [Card.new('H','A'), Card.new('S','A')]
   #     player1.cards.each {|card| card.set_face_value }
@@ -48,6 +51,5 @@ describe "Shoe Game" do
   #     player1.cards.each {|card| card.set_face_value }
   #     expect(player1.total_value).to eq(1 + 1 + 10 + 10)
   #   end
-  # end
-
+  end
 end

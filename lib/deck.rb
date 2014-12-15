@@ -12,10 +12,4 @@ class Deck
     end
     @cards.shuffle!
   end
-
-  def each_card
-    @cards.each do |card|
-      yield card
-    end
-  end
 end

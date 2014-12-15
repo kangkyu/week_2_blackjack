@@ -9,13 +9,6 @@ class Player < Person
     @money_current = money
   end
 
-  def greet
-    puts "Hello, before we start the game, may I have your first name?"
-    answer = gets.chomp
-    name = answer.capitalize unless answer.empty?
-    puts "Hi, #{name}!"
-  end
-
   def hit?
     puts "hit or stay, #{name}?"
     answer = gets.chomp
