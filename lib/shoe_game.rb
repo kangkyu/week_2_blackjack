@@ -10,14 +10,7 @@ class ShoeGame
 
   def assign_face_value_of_all_cards
     shoe.each_card do |card|
-      card.face_value = 
-      if card.rank.include? 'A'
-        11
-      elsif card.rank.to_i == 0
-        10
-      else
-        card.rank.to_i
-      end
+      card.set_face_value
     end
   end
 

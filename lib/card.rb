@@ -12,4 +12,14 @@ class Card
   def to_s
     "#{RANK_NAME[@rank]} of #{SUIT_NAME[@suit]}".rjust(30) + "#{@face_value}".rjust(3)
   end
+
+  def set_face_value
+    @face_value = if rank.include? 'A'
+      11
+    elsif rank.to_i == 0
+      10
+    else
+      rank.to_i
+    end
+  end
 end
