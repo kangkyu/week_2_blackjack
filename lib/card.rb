@@ -10,7 +10,7 @@ class Card
   end
 
   def to_s
-    "#{RANK_NAME[@rank]} of #{SUIT_NAME[@suit]}".rjust(30) + "#{@face_value}".rjust(3)
+    "#{Card::RANK_NAME[@rank]} of #{Card::SUIT_NAME[@suit]}".rjust(30) + "#{@face_value}".rjust(3)
   end
 
   def set_face_value

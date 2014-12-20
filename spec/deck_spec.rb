@@ -15,7 +15,7 @@ describe 'Deck' do
       suits.push card.suit 
     end
     suits.uniq!
-    expect(suits.sort).to eq(Deck::SUITS.sort)
+    expect(suits.sort).to eq(Deck::DECK_SUITS.sort)
   end
 
   it "has 13 different ranks" do
@@ -24,6 +24,6 @@ describe 'Deck' do
       ranks.push card.rank 
     end
     ranks.uniq!
-    expect(ranks.sort).to eq(Deck::RANKS.sort)
+    expect(ranks.sort).to eq(Deck::DECK_RANKS.sort)
   end
 end
