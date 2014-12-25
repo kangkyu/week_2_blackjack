@@ -19,11 +19,13 @@ class Deck
   DECK_SUITS = ['D','C','H','S']
   DECK_RANKS = ['2','3','4','5','6','7','8','9','10','J','K','Q','A']
 
-  attr_accessor :cards
+  attr_reader :cards
   def initialize
     @cards = []
     prepare
   end
+
+  private
 
   def prepare
     Deck::DECK_SUITS.product(Deck::DECK_RANKS).each do |suit,rank|

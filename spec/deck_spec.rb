@@ -26,4 +26,11 @@ describe 'Deck' do
     ranks.uniq!
     expect(ranks.sort).to eq(Deck::DECK_RANKS.sort)
   end
+
+  it "has a face value on each card" do
+    @deck.each_card do |card|
+      expect(card.face_value.between?(1, 11)).to eq(true)
+      expect((1..11).include? card.face_value).to eq(true)
+    end
+  end
 end

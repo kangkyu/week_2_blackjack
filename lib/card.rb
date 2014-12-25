@@ -6,15 +6,14 @@ class Card
   attr_accessor :face_value
   def initialize(s,r)
     @suit,@rank = s,r
-    @face_value = 0
   end
 
   def to_s
     "#{Card::RANK_NAME[rank]} of #{Card::SUIT_NAME[suit]}".rjust(30) + "#{face_value}".rjust(3)
   end
 
-  def set_face_value
-    @face_value = if rank.include? 'A'
+  def face_value
+    if rank.include? 'A'
       11
     elsif rank.to_i == 0
       10

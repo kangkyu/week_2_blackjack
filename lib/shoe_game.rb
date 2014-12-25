@@ -1,4 +1,6 @@
-require_relative 'person'
+require_relative 'player'
+require_relative 'dealer'
+require_relative 'shoe'
 
 class ShoeGame
   attr_accessor :shoe, :dealer, :player1
@@ -8,22 +10,8 @@ class ShoeGame
     @player1 = Player.new
   end
 
-  def assign_face_value_of_all_cards
-    shoe.each_card do |card|
-      card.set_face_value
-    end
-  end
-
-  def greet_player
-    puts "Hello, before we start the game, may I have your first name?"
-    answer = gets.chomp
-    @player1.name ||= answer.capitalize
-    puts "Hi, #{player1.name}!"
-  end
-
   def game_ready
     # greet_player
-    assign_face_value_of_all_cards
   end
 
   def play_round
@@ -43,6 +31,53 @@ class ShoeGame
     dealer << shoe.deal_one
     player1 << shoe.deal_one
     dealer << shoe.deal_one
+  end
+
+  def compare_stay_value
+    if dealer < player1
+      puts "#{player1.name} wins"
+      player1.money_current += @money_bet
+    elsif dealer > player1
+      puts "#{dealer.name} wins"
+      player1.money_current -= @money_bet
+    else
+      puts "Push!"
+      player1.money_current += 0
+    end
+    end_round
+  end
+
+  def greet_player
+    puts "Hello, before we start the game, may I have your first name?"
+    answer = gets.chomp
+    @player1.name ||= answer.capitalize
+    puts "Hi, #{player1.name}!"
+  end
+
+  def end_round
+    puts "Now you have #{player1.money_current}"
+    puts "another round? ('Yes' or 'No')"
+    if another_round?
+      play_round
+    else
+      puts "Bye-bye"
+      end_game
+    end
+  end
+
+  def another_round?
+    answer = gets.chomp
+    case answer.downcase
+    when 'y', 'yes', '1' then true
+    when 'n', 'no', '2', 'exit', "quit", "" then false
+    else
+      puts "please type 'Yes' or 'No'"
+      another_round?
+    end
+  end
+
+  def end_game
+    exit
   end
 
   def turn_of(person)
@@ -83,45 +118,5 @@ class ShoeGame
       player1.money_current += @money_bet
     end
     end_round
-  end
-
-  def compare_stay_value
-    if dealer < player1
-      puts "#{player1.name} wins"
-      player1.money_current += @money_bet
-    elsif dealer > player1
-      puts "#{dealer.name} wins"
-      player1.money_current -= @money_bet
-    else
-      puts "Push!"
-      player1.money_current += 0
-    end
-    end_round
-  end
-
-  def end_round
-    puts "Now you have #{player1.money_current}"
-    puts "another round? ('Yes' or 'No')"
-    if another_round?
-      play_round
-    else
-      puts "Bye-bye"
-      end_game
-    end
-  end
-
-  def another_round?
-    answer = gets.chomp
-    case answer.downcase
-    when 'y', 'yes', '1' then true
-    when 'n', 'no', '2', 'exit', "quit", "" then false
-    else
-      puts "please type 'Yes' or 'No'"
-      another_round?
-    end
-  end
-
-  def end_game
-    exit
   end
 end

@@ -10,15 +10,17 @@ class Shoe
     prepare
   end
 
+  def deal_one
+    cards.pop
+  end
+
+  private
+
   def prepare
     @num_of_decks.times do
       cards.push *(Deck.new.cards)
     end
     cards.shuffle!
-  end
-
-  def deal_one
-    cards.pop
   end
 end
 
