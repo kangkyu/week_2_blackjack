@@ -2,11 +2,6 @@ require 'person'
 
 describe "Person" do
 
-  it "has a capitalized name" do
-    player1 = Player.new('larry')
-    expect(player1.name).to eq("Larry")
-  end
-
   context "hand holds cards" do
     before do
       @person = Person.new("person")
