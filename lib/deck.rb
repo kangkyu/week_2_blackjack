@@ -1,24 +1,12 @@
 module WithMultipleCards
   
-  def each_card
-    @cards.each do |card|
-      yield card
-    end
-  end
-
-  def card_count
-    @cards.size
-  end
-end
-
-class Deck
-  include WithMultipleCards
   SUIT_NAME = {
     'D' => "Diamonds", 
     'C' => "Clubs", 
     'H' => "Hearts", 
     'S' => "Spades" 
   }
+
   RANK_NAME = {
     '2' => "Two", 
     '3' => "Three", 
@@ -35,6 +23,21 @@ class Deck
     'A' => "Ace" 
   }
 
+  def each_card
+    @cards.each do |card|
+      yield card
+    end
+  end
+
+  def card_count
+    @cards.size
+  end
+
+end
+
+class Deck
+  include WithMultipleCards
+
   attr_reader :cards
   def initialize
     @cards = []
@@ -44,10 +47,7 @@ class Deck
   private
 
   def prepare
-    # Deck::DECK_SUITS.product(Deck::DECK_RANKS).each do |suit,rank|
-    #   cards << Card.new(suit,rank)
-    # end
-    @cards = Deck::SUIT_NAME.keys.product(Deck::RANK_NAME.keys).collect do |e|
+    @cards = SUIT_NAME.keys.product(RANK_NAME.keys).collect do |e|
       Card.new(e[0],e[1])
     end
     cards.shuffle!

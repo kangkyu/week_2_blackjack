@@ -1,6 +1,7 @@
 require_relative 'deck'
 
 class Card
+  include WithMultipleCards
 
   attr_reader :rank, :suit
   attr_accessor :face_value
@@ -9,7 +10,7 @@ class Card
   end
 
   def to_s
-    "#{Deck::RANK_NAME[rank]} of #{Deck::SUIT_NAME[suit]}".rjust(30) + "#{face_value}".rjust(3)
+    "#{RANK_NAME[rank]} of #{SUIT_NAME[suit]}".rjust(30) + "#{face_value}".rjust(3)
   end
 
   def face_value
