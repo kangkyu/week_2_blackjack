@@ -14,9 +14,4 @@ class Dealer < Person
     puts "#{name}'s first card was:"
     puts hand.cards[0]
   end
-
-  def show_second_card
-    puts "#{name}'s second card showing:"
-    puts hand.cards[1]
-  end
 end

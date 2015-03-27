@@ -11,9 +11,16 @@ class Shoe
   end
 
   def deal_one
-    cards.pop
+    pop_card = cards.pop
+    puts pop_card
+    pop_card
   end
 
+  def silent_deal_one
+    pop_card = cards.pop
+    puts ("*" * pop_card.to_s.length)
+    pop_card
+  end
   private
 
   def prepare

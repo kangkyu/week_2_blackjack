@@ -21,13 +21,13 @@ class Player < Person
     end
   end
 
-  def ask_bet_much
+  def decide_bet_much
     puts "how much do you bet? you have #{money_current}"
     answer = gets.chomp
-    if answer.empty?
-      ask_bet_much
-    else
+    if answer.to_i > 0
       answer.to_i
+    else
+      decide_bet_much  
     end
   end
 end

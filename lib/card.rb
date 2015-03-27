@@ -1,7 +1,29 @@
 require_relative 'deck'
 
 class Card
-  include WithMultipleCards
+ 
+  SUIT_NAME = {
+    'D' => "Diamonds", 
+    'C' => "Clubs", 
+    'H' => "Hearts", 
+    'S' => "Spades" 
+  }
+
+  RANK_NAME = {
+    '2' => "Two", 
+    '3' => "Three", 
+    '4' => "Four", 
+    '5' => "Five", 
+    '6' => "Six", 
+    '7' => "Seven", 
+    '8' => "Eight", 
+    '9' => "Nine", 
+    '10' => "Ten", 
+    'J' => "Jack", 
+    'K' => "King", 
+    'Q' => "Queen", 
+    'A' => "Ace" 
+  }
 
   attr_reader :rank, :suit
   attr_accessor :face_value

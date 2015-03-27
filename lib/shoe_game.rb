@@ -15,9 +15,8 @@ class ShoeGame
   end
 
   def play_round
-    @money_bet = player1.ask_bet_much
+    @money_bet = player1.decide_bet_much
     first_deal
-    dealer.show_second_card
     turn_of player1
     dealer.flip_first_card
     turn_of dealer
@@ -27,9 +26,13 @@ class ShoeGame
   def first_deal
     player1.clear
     dealer.clear
+    puts "player's first card"
     player1 << shoe.deal_one
-    dealer << shoe.deal_one
+    puts "dealer's first card"
+    dealer << shoe.silent_deal_one
+    puts "player's second card"
     player1 << shoe.deal_one
+    puts "dealer's second card"
     dealer << shoe.deal_one
   end
 
@@ -102,20 +105,18 @@ class ShoeGame
 
   def blackjack(person)
     puts " => #{person.name} blackjack"
-    if person.is_a?(Player)
-      player1.money_current += @money_bet * 2
-    else
-      player1.money_current -= @money_bet * 2
-    end 
+    case person
+    when Player then player1.money_current += @money_bet * 2
+    else player1.money_current -= @money_bet * 2
+    end
     end_round
   end
 
   def bust(person)
     puts " => #{person.name} busts"
-    if person.is_a?(Player)
-      player1.money_current -= @money_bet 
-    else
-      player1.money_current += @money_bet
+    case person
+    when Player then player1.money_current -= @money_bet 
+    else player1.money_current += @money_bet
     end
     end_round
   end
