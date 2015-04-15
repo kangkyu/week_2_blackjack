@@ -5,7 +5,7 @@ require_relative 'shoe'
 class ShoeGame
   attr_accessor :shoe, :dealer, :player1
   def initialize
-    @shoe = Shoe.new
+    @shoe = Shoe.new(6)
     @dealer = Dealer.new
     @player1 = Player.new
   end

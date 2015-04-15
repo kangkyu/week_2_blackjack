@@ -1,4 +1,4 @@
-require_relative 'deck'
+require_relative 'card'
 
 class Hand
   include WithMultipleCards
@@ -10,7 +10,7 @@ class Hand
 
   def total_value
     soft_aces_count.times do
-      cards[soft_first_at].face_value = 1 if face_value_sum > 21 
+      cards[soft_first_at].face_value = 1 if face_value_sum > 21
     end
     face_value_sum
   end

@@ -1,4 +1,16 @@
-require_relative 'deck'
+module WithMultipleCards
+
+  def each_card
+    @cards.each do |card|
+      yield card
+    end
+  end
+
+  def card_count
+    @cards.size
+  end
+
+end
 
 class Card
  
