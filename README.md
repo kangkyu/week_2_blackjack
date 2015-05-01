@@ -1,8 +1,8 @@
-This is Object Oriented Ruby Programming Exercise
-with Black Jack (week_2 of gotealeaf.com)
+### Blackjack in Ruby
+
+This is a command-line app project started as Object-Oriented Ruby Programming Exercise of [Tealeaf Academy](http://gotealeaf.com/) (week 2 of course 1).
 
 ```sh
-$ cd ~/tealeaf/ruby_projects/week_two_blackjack
 $ ruby bin/blackjack
 ```
 
