@@ -41,4 +41,9 @@ class Person
   def busted?
     hand.total_value > 21
   end
+
+  def flip_first_card
+    puts "#{name}'s first card was:"
+    puts hand.cards[0]
+  end
 end

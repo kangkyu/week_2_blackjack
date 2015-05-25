@@ -27,26 +27,30 @@ class ShoeGame
   def first_deal
     player.clear
     dealer.clear
-    puts "player's first card. hidden to dealer"
+
+    puts "Player's first card. hidden to dealer"
     player << shoe.deal_one
-    puts "dealer's first card"
+    puts "Dealer's first card. hidden to player"
     dealer << shoe.silent_deal_one
-    puts "player's second card"
+
+    puts "Player's second card"
     player << shoe.deal_one
-    puts "dealer's second card"
+    puts "Dealer's second card"
     dealer << shoe.deal_one
   end
 
   def player_turn
-    player.status
-    blackjack(player) if player.blackjack?
     puts "\n#{player.name}'s turn,"
+    player.flip_first_card
+    player.status
+    player_blackjack_and_round_over if player.blackjack?
+
     loop do
       if player.hit?
         puts " => #{player.name} hits"
         player << shoe.deal_one
         player.status
-        bust(player) if player.busted?
+        player_busts_and_round_over if player.busted?
       else
         puts " => #{player.name} stays"
         break
@@ -55,10 +59,11 @@ class ShoeGame
   end
 
   def dealer_turn
+    puts "Dealer's turn,"
     dealer.flip_first_card
     dealer.status
-    blackjack(dealer) if dealer.blackjack?
-    puts "\n#{dealer.name}'s turn,"
+    dealer_blackjack_and_round_over if dealer.blackjack?
+
     loop do
       if dealer > player
         puts " => #{dealer.name} stays"
@@ -67,7 +72,7 @@ class ShoeGame
         puts " => #{dealer.name} hits"
         dealer << shoe.deal_one
         dealer.status
-        bust(dealer) if dealer.busted?
+        dealer_busts_and_round_over if dealer.busted?
       else
         puts " => #{dealer.name} stays"
         break
@@ -86,7 +91,7 @@ class ShoeGame
       puts "Push!"
       player.money_current += 0
     end
-    end_round
+    round_over
   end
 
   def another_round?
@@ -100,32 +105,31 @@ class ShoeGame
     end
   end
 
-  def blackjack(person)
-    puts " => #{person.name} blackjack"
-    case person
-    when Player then player.money_current += @money_bet_by_player * 2
-    else player.money_current -= @money_bet_by_player * 2
-    end
-    end_round
+  def player_blackjack_and_round_over
+    puts " => #{player.name} blackjack"
+    player.money_current += @money_bet_by_player * 2
+    round_over
   end
 
-  def bust(person)
+  def person_blackjack_and_round_over
+    puts " => Dealer blackjack"
+    player.money_current -= @money_bet_by_player * 2
+    round_over
+  end
+
+  def player_busts_and_round_over
     puts " => #{person.name} busts"
-    case person
-    when Player then player.money_current -= @money_bet_by_player
-    else player.money_current += @money_bet_by_player
-    end
-    end_round
+    player.money_current -= @money_bet_by_player
+    round_over
   end
 
-  def greet_player
-    puts "Hello, before we start the game, may I have your first name?"
-    answer = gets.chomp
-    @player.name ||= answer.capitalize
-    puts "Hi, #{player.name}!"
+  def dealer_busts_and_round_over
+    puts " => Dealer busts"
+    player.money_current += @money_bet_by_player
+    round_over
   end
 
-  def end_round
+  def round_over
     puts "Now you have #{player.money_current}"
     puts "another round? ('Yes' or 'No')"
     if another_round?
@@ -136,28 +140,14 @@ class ShoeGame
     end
   end
 
-  def end_game
-    exit
+  def greet_player
+    puts "Hello, before we start the game, may I have your first name?"
+    answer = gets.chomp
+    @player.name ||= answer.capitalize
+    puts "Hi, #{player.name}!"
   end
 
-  def turn_of(person)
-    person.flip_first_card if person.is_a?(Dealer)
-    person.status
-    blackjack(person) if person.blackjack?
-    puts "\n#{person.name}'s turn,"
-    loop do
-      if person.is_a?(Dealer) && dealer > player
-        puts " => #{person.name} stays"
-        break
-      elsif person.hit?
-        puts " => #{person.name} hits"
-        person << shoe.deal_one
-        person.status
-        bust(person) if person.busted?
-      else
-        puts " => #{person.name} stays"
-        break
-      end
-    end
+  def end_game
+    exit
   end
 end

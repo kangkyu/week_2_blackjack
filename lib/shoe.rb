@@ -18,7 +18,7 @@ class Shoe
 
   def silent_deal_one
     pop_card = cards.pop
-    puts "hidden to player".rjust(30)
+    puts "\"hidden\"".rjust(30)
     pop_card
   end
 

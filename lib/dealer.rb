@@ -9,9 +9,4 @@ class Dealer < Person
     sleep 1
     hand.total_value < 17
   end
-
-  def flip_first_card
-    puts "#{name}'s first card was:"
-    puts hand.cards[0]
-  end
 end
