@@ -3,11 +3,11 @@ require_relative 'dealer'
 require_relative 'shoe'
 
 class ShoeGame
-  attr_accessor :shoe, :dealer, :player1
+  attr_accessor :shoe, :dealer, :player
   def initialize
     @shoe = Shoe.new(6)
     @dealer = Dealer.new
-    @player1 = Player.new
+    @player = Player.new
   end
 
   def game_ready
@@ -15,57 +15,78 @@ class ShoeGame
   end
 
   def play_round
-    @money_bet = player1.decide_bet_much
+    @money_bet_by_player = player.decide_bet_much
     first_deal
-    turn_of player1
-    dealer.flip_first_card
-    turn_of dealer
+    player_turn
+    dealer_turn
     compare_stay_value
   end
 
+  private
+
   def first_deal
-    player1.clear
+    player.clear
     dealer.clear
-    puts "player's first card"
-    player1 << shoe.deal_one
+    puts "player's first card. hidden to dealer"
+    player << shoe.deal_one
     puts "dealer's first card"
     dealer << shoe.silent_deal_one
     puts "player's second card"
-    player1 << shoe.deal_one
+    player << shoe.deal_one
     puts "dealer's second card"
     dealer << shoe.deal_one
   end
 
+  def player_turn
+    player.status
+    blackjack(player) if player.blackjack?
+    puts "\n#{player.name}'s turn,"
+    loop do
+      if player.hit?
+        puts " => #{player.name} hits"
+        player << shoe.deal_one
+        player.status
+        bust(player) if player.busted?
+      else
+        puts " => #{player.name} stays"
+        break
+      end
+    end
+  end
+
+  def dealer_turn
+    dealer.flip_first_card
+    dealer.status
+    blackjack(dealer) if dealer.blackjack?
+    puts "\n#{dealer.name}'s turn,"
+    loop do
+      if dealer > player
+        puts " => #{dealer.name} stays"
+        break
+      elsif dealer.hit?
+        puts " => #{dealer.name} hits"
+        dealer << shoe.deal_one
+        dealer.status
+        bust(dealer) if dealer.busted?
+      else
+        puts " => #{dealer.name} stays"
+        break
+      end
+    end
+  end
+
   def compare_stay_value
-    if dealer < player1
-      puts "#{player1.name} wins"
-      player1.money_current += @money_bet
-    elsif dealer > player1
+    if dealer < player
+      puts "#{player.name} wins"
+      player.money_current += @money_bet_by_player
+    elsif dealer > player
       puts "#{dealer.name} wins"
-      player1.money_current -= @money_bet
+      player.money_current -= @money_bet_by_player
     else
       puts "Push!"
-      player1.money_current += 0
+      player.money_current += 0
     end
     end_round
-  end
-
-  def greet_player
-    puts "Hello, before we start the game, may I have your first name?"
-    answer = gets.chomp
-    @player1.name ||= answer.capitalize
-    puts "Hi, #{player1.name}!"
-  end
-
-  def end_round
-    puts "Now you have #{player1.money_current}"
-    puts "another round? ('Yes' or 'No')"
-    if another_round?
-      play_round
-    else
-      puts "Bye-bye"
-      end_game
-    end
   end
 
   def another_round?
@@ -79,35 +100,11 @@ class ShoeGame
     end
   end
 
-  def end_game
-    exit
-  end
-
-  def turn_of(person)
-    person.status
-    blackjack(person) if person.hand.total_value == 21
-    puts "\n#{person.name}'s turn,"
-    loop do
-      if person.is_a?(Dealer) && dealer > player1
-        puts " => #{person.name} stays"
-        break
-      elsif person.hit?
-        puts " => #{person.name} hits"
-        person << shoe.deal_one
-        person.status
-        bust(person) if person.hand.total_value > 21
-      else
-        puts " => #{person.name} stays"
-        break
-      end
-    end
-  end
-
   def blackjack(person)
     puts " => #{person.name} blackjack"
     case person
-    when Player then player1.money_current += @money_bet * 2
-    else player1.money_current -= @money_bet * 2
+    when Player then player.money_current += @money_bet_by_player * 2
+    else player.money_current -= @money_bet_by_player * 2
     end
     end_round
   end
@@ -115,9 +112,52 @@ class ShoeGame
   def bust(person)
     puts " => #{person.name} busts"
     case person
-    when Player then player1.money_current -= @money_bet 
-    else player1.money_current += @money_bet
+    when Player then player.money_current -= @money_bet_by_player
+    else player.money_current += @money_bet_by_player
     end
     end_round
+  end
+
+  def greet_player
+    puts "Hello, before we start the game, may I have your first name?"
+    answer = gets.chomp
+    @player.name ||= answer.capitalize
+    puts "Hi, #{player.name}!"
+  end
+
+  def end_round
+    puts "Now you have #{player.money_current}"
+    puts "another round? ('Yes' or 'No')"
+    if another_round?
+      play_round
+    else
+      puts "Bye-bye"
+      end_game
+    end
+  end
+
+  def end_game
+    exit
+  end
+
+  def turn_of(person)
+    person.flip_first_card if person.is_a?(Dealer)
+    person.status
+    blackjack(person) if person.blackjack?
+    puts "\n#{person.name}'s turn,"
+    loop do
+      if person.is_a?(Dealer) && dealer > player
+        puts " => #{person.name} stays"
+        break
+      elsif person.hit?
+        puts " => #{person.name} hits"
+        person << shoe.deal_one
+        person.status
+        bust(person) if person.busted?
+      else
+        puts " => #{person.name} stays"
+        break
+      end
+    end
   end
 end

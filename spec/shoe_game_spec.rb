@@ -1,4 +1,4 @@
-require 'shoe_game'
+require 'spec_helper'
 
 describe "Shoe Game" do
   before do

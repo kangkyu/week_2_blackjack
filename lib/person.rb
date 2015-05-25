@@ -33,4 +33,12 @@ class Person
   def <<(arg)
     hand.cards << arg
   end
+
+  def blackjack?
+    hand.total_value == 21
+  end
+
+  def busted?
+    hand.total_value > 21
+  end
 end

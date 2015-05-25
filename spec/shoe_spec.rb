@@ -1,4 +1,4 @@
-require 'shoe'
+require 'spec_helper'
 
 describe "Shoe" do
 
