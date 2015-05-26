@@ -9,14 +9,12 @@ describe "Shoe Game" do
   context "cards have their face values" do
 
     it "all the cards with its face value integer" do
-      @game.game_ready
       @game.shoe.each_card do |card|
         expect(card.face_value.is_a?(Integer)).to eq(true)
       end
     end
 
     it "all the face values are not zero" do
-      @game.game_ready
       @game.shoe.each_card do |card|
         expect(card.face_value).not_to be_zero
       end

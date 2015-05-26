@@ -9,7 +9,6 @@ module WithMultipleCards
   def card_count
     @cards.size
   end
-
 end
 
 class Card

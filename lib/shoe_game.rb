@@ -5,16 +5,19 @@ require_relative 'shoe'
 class ShoeGame
   attr_accessor :shoe, :dealer, :player
   def initialize
+    puts "\n=== ShoeGame.initialize ==="
     @shoe = Shoe.new(6)
     @dealer = Dealer.new
     @player = Player.new
   end
 
   def game_ready
-    # greet_player
+    puts "\n=== ShoeGame.game_ready ==="
+    greet_player
   end
 
   def play_round
+    puts "\n=== ShoeGame.play_round ==="
     @money_bet_by_player = player.decide_bet_much
     first_deal
     player_turn
@@ -25,7 +28,7 @@ class ShoeGame
   private
 
   def first_deal
-    puts "=== First deal ==="
+    puts "\n=== ShoeGame.first_deal ==="
     player.clear
     dealer.clear
 
@@ -37,8 +40,9 @@ class ShoeGame
   end
 
   def player_turn
-    puts "=== #{player.name}'s turn ==="
-    player.flip_first_card
+    puts "\n=== ShoeGame.player_turn ==="
+    puts "\n=== #{player.name}'s turn ==="
+    # player.flip_first_card
     player.status
     player_blackjack_and_round_over if player.blackjack?
 
@@ -56,7 +60,8 @@ class ShoeGame
   end
 
   def dealer_turn
-    puts "=== Dealer's turn ==="
+    puts "\n=== ShoeGame.dealer_turn ==="
+    puts "\n=== #{dealer.name}'s turn ==="
     dealer.flip_first_card
     dealer.status
     dealer_blackjack_and_round_over if dealer.blackjack?
@@ -78,6 +83,7 @@ class ShoeGame
   end
 
   def compare_stay_value
+    puts "\n=== ShoeGame.compare_stay_value ==="
     if dealer < player
       puts "#{player.name} wins"
       player.money_current += @money_bet_by_player
@@ -92,6 +98,8 @@ class ShoeGame
   end
 
   def another_round?
+    puts "\n=== ShoeGame.another_round ==="
+    puts "another round? ('Yes' or 'No')"
     answer = gets.chomp
     case answer.downcase
     when 'y', 'yes', '1' then true
@@ -103,32 +111,37 @@ class ShoeGame
   end
 
   def player_blackjack_and_round_over
+    puts "\n=== ShoeGame.player_blackjack_and_round_over ==="
     puts " => #{player.name} blackjack"
     player.money_current += @money_bet_by_player * 2
     round_over
   end
 
   def dealer_blackjack_and_round_over
-    puts " => Dealer blackjack"
+    puts "\n=== ShoeGame.dealer_blackjack_and_round_over ==="
+    puts " => #{dealer.name} blackjack"
     player.money_current -= @money_bet_by_player * 2
     round_over
   end
 
   def player_busts_and_round_over
+    puts "\n=== ShoeGame.player_busts_and_round_over ==="
     puts " => #{player.name} busts"
     player.money_current -= @money_bet_by_player
     round_over
   end
 
   def dealer_busts_and_round_over
-    puts " => Dealer busts"
+    puts "\n=== ShoeGame.dealer_busts_and_round_over ==="
+    puts " => #{dealer.name} busts"
     player.money_current += @money_bet_by_player
     round_over
   end
 
   def round_over
-    puts "Now you have #{player.money_current}"
-    puts "another round? ('Yes' or 'No')"
+    puts "\n=== ShoeGame.round_over ==="
+    puts "\n=== ShoeGame.Round is over ==="
+    puts "Now #{player.name} has #{player.money_current}"
     if another_round?
       play_round
     else
@@ -138,13 +151,15 @@ class ShoeGame
   end
 
   def greet_player
+    puts "\n=== ShoeGame.greet_player ==="
     puts "Hello, before we start the game, may I have your first name?"
     answer = gets.chomp
-    @player.name ||= answer.capitalize
+    player.name = answer.capitalize
     puts "Hi, #{player.name}!"
   end
 
   def end_game
+    puts "\n=== ShoeGame.end_game ==="
     exit
   end
 end
