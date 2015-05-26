@@ -14,7 +14,7 @@ class Person
   end
 
   def status
-    puts "\n#{name} has now total value : #{hand.total_value}"
+    puts "#{name} has now total value : #{hand.total_value}"
     hand.each_card {|card| puts card}
   end
 
@@ -32,6 +32,7 @@ class Person
 
   def <<(arg)
     hand.cards << arg
+    puts " ... passes to #{name}"
   end
 
   def blackjack?

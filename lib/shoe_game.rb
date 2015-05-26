@@ -25,22 +25,19 @@ class ShoeGame
   private
 
   def first_deal
+    puts "=== First deal ==="
     player.clear
     dealer.clear
 
-    puts "Player's first card. hidden to dealer"
     player << shoe.deal_one
-    puts "Dealer's first card. hidden to player"
     dealer << shoe.silent_deal_one
 
-    puts "Player's second card"
     player << shoe.deal_one
-    puts "Dealer's second card"
     dealer << shoe.deal_one
   end
 
   def player_turn
-    puts "\n#{player.name}'s turn,"
+    puts "=== #{player.name}'s turn ==="
     player.flip_first_card
     player.status
     player_blackjack_and_round_over if player.blackjack?
@@ -59,7 +56,7 @@ class ShoeGame
   end
 
   def dealer_turn
-    puts "Dealer's turn,"
+    puts "=== Dealer's turn ==="
     dealer.flip_first_card
     dealer.status
     dealer_blackjack_and_round_over if dealer.blackjack?
@@ -111,14 +108,14 @@ class ShoeGame
     round_over
   end
 
-  def person_blackjack_and_round_over
+  def dealer_blackjack_and_round_over
     puts " => Dealer blackjack"
     player.money_current -= @money_bet_by_player * 2
     round_over
   end
 
   def player_busts_and_round_over
-    puts " => #{person.name} busts"
+    puts " => #{player.name} busts"
     player.money_current -= @money_bet_by_player
     round_over
   end

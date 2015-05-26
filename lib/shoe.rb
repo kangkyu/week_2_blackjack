@@ -12,6 +12,7 @@ class Shoe
 
   def deal_one
     pop_card = cards.pop
+    sleep 1
     puts pop_card
     pop_card
   end
