@@ -38,8 +38,8 @@ class Card
 
   attr_reader :rank, :suit
   attr_accessor :face_value
-  def initialize(s,r)
-    @suit,@rank = s,r
+  def initialize(s, r)
+    @suit, @rank = s, r
   end
 
   def to_s

@@ -4,7 +4,7 @@ class Shoe
   include WithMultipleCards
 
   attr_accessor :cards
-  def initialize(num_of_decks=6)
+  def initialize(num_of_decks = 6)
     @num_of_decks = num_of_decks
     @cards = []
     prepare
@@ -27,7 +27,7 @@ class Shoe
 
   def deck_of_cards
     Card::SUIT_NAME.keys.product(Card::RANK_NAME.keys).collect do |e|
-      Card.new(e[0],e[1])
+      Card.new(e[0], e[1])
     end
   end
 

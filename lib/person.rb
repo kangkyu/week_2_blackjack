@@ -15,6 +15,7 @@ class Person
 
   def status
     puts "=== Person.status ==="
+    puts "=== status of #{name} ==="
     puts "#{name} has now total value : #{hand.total_value}"
     hand.each_card {|card| puts card}
   end

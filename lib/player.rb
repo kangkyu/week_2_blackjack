@@ -3,10 +3,11 @@ require_relative 'person'
 class Player < Person
   START_AMOUNT = 100
 
-  attr_accessor :money_current
+  attr_accessor :money_current, :money_bet
   def initialize(name = 'player', money = START_AMOUNT)
     super(name)
     @money_current = money
+    @money_bet = 0
   end
 
   def decide_hit
