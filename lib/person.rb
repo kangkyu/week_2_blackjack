@@ -34,7 +34,8 @@ class Person
 
   def <<(arg)
     hand.cards << arg
-    puts " ... passes to #{name}"
+    puts " ...passes to #{name}"
+    puts
   end
 
   def blackjack?

@@ -1,8 +1,8 @@
 module WithMultipleCards
 
-  def each_card
+  def each_card(&block)
     @cards.each do |card|
-      yield card
+      block.call card
     end
   end
 
