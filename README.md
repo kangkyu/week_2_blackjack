@@ -3,7 +3,7 @@
 This is a command-line app project started as Object-Oriented Ruby Programming Exercise of [Tealeaf Academy](http://gotealeaf.com/) (week 2 of course 1).
 
 ```sh
-$ ruby bin/blackjack
+$ bin/blackjack
 ```
 
 + Both dealer and player receive two cards in the beginning.
