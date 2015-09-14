@@ -18,14 +18,14 @@ class Hand
   private
   
   def soft_aces_count
-    cards.count{|card| card.face_value == 11}
+    cards.count {|card| card.face_value == 11}
   end
 
   def face_value_sum
-    cards.map{|card| card.face_value}.reduce(0, :+)
+    cards.map {|card| card.face_value}.reduce(0, :+)
   end
 
   def soft_first_at
-    cards.find_index{|card| card.face_value == 11}
+    cards.find_index {|card| card.face_value == 11}
   end
 end
