@@ -26,14 +26,14 @@ class Shoe
   private
 
   def deck_of_cards
-    Card::SUIT_NAME.keys.product(Card::RANK_NAME.keys).collect do |e|
-      Card.new(e[0], e[1])
+    Card::SUIT_NAME.keys.product(Card::RANK_NAME.keys).collect do |s, r|
+      Card.new(s, r)
     end
   end
 
   def prepare
     @num_of_decks.times do
-      cards.push *(deck_of_cards)
+      cards.push *deck_of_cards
     end
     cards.shuffle!
   end

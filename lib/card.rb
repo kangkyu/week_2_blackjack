@@ -1,16 +1,3 @@
-module WithMultipleCards
-
-  def each_card(&block)
-    @cards.each do |card|
-      block.call card
-    end
-  end
-
-  def card_count
-    @cards.size
-  end
-end
-
 class Card
  
   SUIT_NAME = { 'D' => "Diamonds",
@@ -45,12 +32,26 @@ class Card
   end
 
   def face_value
-    if rank.include? 'A'
+    case rank
+    when 'A'
       @face_value || 11
-    elsif rank.to_i == 0
+    when 'J', 'K', 'Q'
       10
     else
       rank.to_i
     end
+  end
+end
+
+module WithMultipleCards
+
+  def each_card(&block)
+    @cards.sort_by {|card| card.rank}.each do |card|
+      block.call card
+    end
+  end
+
+  def card_count
+    @cards.size
   end
 end
