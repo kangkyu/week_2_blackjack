@@ -9,11 +9,11 @@ describe 'Dealer' do
 
   it "decides hit by house rule" do
     dealer = Dealer.new
-    dealer << Card.new('D','2')
+    dealer << Card.new("2", "D")
     expect(dealer.decide_hit).to be_truthy
 
-    dealer << Card.new('D','A')
-    dealer << Card.new('D','7')
+    dealer << Card.new("A", "D")
+    dealer << Card.new("7", "D")
     expect(dealer.decide_hit).to be_falsey
   end
 end

@@ -26,8 +26,8 @@ class Shoe
   private
 
   def deck_of_cards
-    Card::SUIT_NAME.keys.product(Card::RANK_NAME.keys).collect do |s, r|
-      Card.new(s, r)
+    Card::RANK_NAME.keys.product(Card::SUIT_NAME.keys).collect do |r, s|
+      Card.new(r, s)
     end
   end
 

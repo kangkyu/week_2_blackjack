@@ -1,10 +1,4 @@
 class Card
- 
-  SUIT_NAME = { 'D' => "Diamonds",
-                'C' => "Clubs",
-                'H' => "Hearts",
-                'S' => "Spades"
-              }
 
   RANK_NAME = { '2' => "Two",
                 '3' => "Three",
@@ -14,21 +8,29 @@ class Card
                 '7' => "Seven",
                 '8' => "Eight",
                 '9' => "Nine",
-                '10' => "Ten",
+               '10' => "Ten",
                 'J' => "Jack",
                 'K' => "King",
                 'Q' => "Queen",
                 'A' => "Ace"
               }
 
+  SUIT_NAME = { 'D' => "Diamonds",
+                'C' => "Clubs",
+                'H' => "Hearts",
+                'S' => "Spades"
+              }
+
   attr_reader :rank, :suit
   attr_accessor :face_value
-  def initialize(s, r)
-    @suit, @rank = s, r
+
+  def initialize(r, s)
+    @rank, @suit = r, s
   end
 
   def to_s
-    "#{RANK_NAME[rank]} of #{SUIT_NAME[suit]}".rjust(30) + "#{face_value}".rjust(3)
+    "#{RANK_NAME[rank]} of #{SUIT_NAME[suit]}".rjust(30) +
+    "#{face_value}".rjust(3)
   end
 
   def face_value
@@ -45,7 +47,7 @@ end
 
 module WithMultipleCards
 
-  def each_card(&block)
+  def each_card &block
     @cards.sort_by {|card| card.rank}.each do |card|
       block.call card
     end
