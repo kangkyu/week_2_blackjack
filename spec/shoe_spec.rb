@@ -14,8 +14,8 @@ describe "Shoe" do
 
   it "has deal_one method to deal one card at a time" do
     shoe1 = Shoe.new
-    hand = []
-    hand.push shoe1.deal_one
-    expect(hand.count).to eq(1)
+    hand = Hand.new
+    hand.cards.push shoe1.deal_one
+    expect(hand.card_count).to eq(1)
   end
 end
