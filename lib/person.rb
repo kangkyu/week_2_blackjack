@@ -17,7 +17,7 @@ class Person
     puts "=== Person.status ==="
     puts "=== status of #{name} ==="
     puts "#{name} has now total value : #{hand.total_value}"
-    hand.each_card {|card| puts card}
+    hand.each {|card| puts card}
   end
 
   def <=>(other)
@@ -25,15 +25,15 @@ class Person
   end
 
   def clear
-    hand.cards.clear
+    hand.clear!
   end
 
   def push(*arg)
-    hand.cards.push(*arg)
+    hand.add_card(*arg)
   end
 
   def <<(arg)
-    hand.cards << arg
+    hand.add_card arg
     puts " ...passes to #{name}"
     puts
   end

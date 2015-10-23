@@ -1,40 +1,39 @@
 require_relative 'card'
 
-class Shoe
-  include WithMultipleCards
+class Shoe < Cards
+  attr_reader :num_of_decks
 
-  attr_accessor :cards
   def initialize(num_of_decks = 6)
+    super()
     @num_of_decks = num_of_decks
-    @cards = []
-    prepare
+    prepare!
   end
 
-  def deal_one
-    pop_card = cards.pop
-    sleep 1
-    puts pop_card
+  def deal_one(silent: false)
+    pop_card = @cards.pop
+    if silent
+      puts "......"
+    else
+      puts pop_card
+    end
     pop_card
   end
 
-  def silent_deal_one
-    pop_card = cards.pop
-    puts "\"hidden\"".rjust(30)
-    pop_card
+  class Deck < Cards
+
+    def initialize
+      @cards = Card::RANK_NAME.keys.product(Card::SUIT_NAME.keys).collect do |r, s|
+        Card.new(r, s)
+      end
+    end
   end
 
   private
 
-  def deck_of_cards
-    Card::RANK_NAME.keys.product(Card::SUIT_NAME.keys).collect do |r, s|
-      Card.new(r, s)
-    end
-  end
-
-  def prepare
+  def prepare!
     @num_of_decks.times do
-      cards.push *deck_of_cards
+      add_card *Deck.new
     end
-    cards.shuffle!
+    @cards.shuffle!
   end
 end

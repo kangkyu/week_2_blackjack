@@ -10,7 +10,7 @@ describe "Hand" do
     it "has total value of 12 when have two Aces" do
       card1 = Card.new('A', 'H')
       card2 = Card.new('A', 'S')
-      @hand.cards = [card1, card2]
+      @hand.add_card card1, card2
       expect(@hand.total_value).to eq(1 + 11)
     end
 
@@ -18,7 +18,7 @@ describe "Hand" do
       card1 = Card.new('A', 'H')
       card2 = Card.new('10', 'S')
       card3 = Card.new('Q', 'S')
-      @hand.cards = [card1, card2, card3]
+      @hand.add_card card1, card2, card3
       expect(@hand.total_value).to eq(1 + 10 + 10)
     end
 
@@ -26,7 +26,7 @@ describe "Hand" do
       card1 = Card.new('A', 'H')
       card2 = Card.new('2', 'S')
       card3 = Card.new('3', 'S')
-      @hand.cards = [card1, card2, card3]
+      @hand.add_card card1, card2, card3
       expect(@hand.total_value).to eq(11 + 2 + 3)
     end
 
@@ -35,7 +35,7 @@ describe "Hand" do
       card2 = Card.new('A', 'S')
       card3 = Card.new('10', 'S')
       card4 = Card.new('Q', 'S')
-      @hand.cards = [card1, card2, card3, card4]
+      @hand.add_card card1, card2, card3, card4
       expect(@hand.total_value).to eq(1 + 1 + 10 + 10)
     end
   end

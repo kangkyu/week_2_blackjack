@@ -45,15 +45,33 @@ class Card
   end
 end
 
-module WithMultipleCards
+class Cards
+  include Enumerable
 
-  def each_card &block
-    @cards.sort_by {|card| card.rank}.each do |card|
-      block.call card
+  def initialize
+    @cards = []
+  end
+
+  def add_card(*cards)
+    @cards.push *cards
+  end
+
+  def find_card(index)
+    @cards[index]
+  end
+
+  def first
+    @cards.first
+  end
+
+  def last
+    @cards.last
+  end
+
+  def each &block
+    @cards.compact.each do |c|
+      block.call c
     end
   end
-
-  def card_count
-    @cards.size
-  end
 end
+

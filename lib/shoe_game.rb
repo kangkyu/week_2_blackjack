@@ -33,7 +33,7 @@ class ShoeGame
     dealer.clear
 
     player << shoe.deal_one
-    dealer << shoe.silent_deal_one
+    dealer << shoe.deal_one(silent: true)
 
     player << shoe.deal_one
     dealer << shoe.deal_one
