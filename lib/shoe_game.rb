@@ -32,11 +32,11 @@ class ShoeGame
     player.clear!
     dealer.clear!
 
-    player.receive shoe.pass_one
-    dealer.receive shoe.pass_one(hidden: true)
+    player << shoe.pass_one
+    dealer << shoe.pass_one(hidden: true)
 
-    player.receive shoe.pass_one
-    dealer.receive shoe.pass_one
+    player << shoe.pass_one
+    dealer << shoe.pass_one
   end
 
   def player_turn
@@ -49,7 +49,7 @@ class ShoeGame
     loop do
       if player.hit?
         puts " => #{player.name} hits"
-        player.receive shoe.pass_one
+        player << shoe.pass_one
         player.status
         player_busts_and_round_over if player.busted?
       else
@@ -72,7 +72,7 @@ class ShoeGame
         break
       elsif dealer.hit?
         puts " => #{dealer.name} hits"
-        dealer.receive shoe.pass_one
+        dealer << shoe.pass_one
         dealer.status
         dealer_busts_and_round_over if dealer.busted?
       else
@@ -140,7 +140,7 @@ class ShoeGame
 
   def round_over
     puts "\n=== ShoeGame.round_over ==="
-    puts "\n=== ShoeGame.Round is over ==="
+    puts "\n=== Round is over ==="
     puts "Now #{player.name} has #{player.money_current}"
     if another_round?
       play_round

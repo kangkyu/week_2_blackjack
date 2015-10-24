@@ -13,7 +13,7 @@ describe "Person" do
     end
   end
 
-  it "gets a card by receive" do
+  it "gets a card by receive or \'<<\'" do
     shoe1 = Shoe.new(1)
     player = Player.new
 
@@ -21,7 +21,9 @@ describe "Person" do
     expect(player.count).to eq(0)
 
     player.receive shoe1.pass_one
-
     expect(player.count).to eq(1)
+
+    player << shoe1.pass_one
+    expect(player.count).to eq(2)
   end
 end
