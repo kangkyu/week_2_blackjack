@@ -9,9 +9,9 @@ class Shoe < Cards
     prepare!
   end
 
-  def deal_one(silent: false)
+  def pass_one(hidden: false)
     pop_card = @cards.pop
-    if silent
+    if hidden
       puts "......".rjust(30)
     else
       puts pop_card

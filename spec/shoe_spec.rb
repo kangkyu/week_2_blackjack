@@ -12,10 +12,10 @@ describe "Shoe" do
     expect(shoe1.count).to eq(52*6)
   end
 
-  it "has deal_one method to deal one card at a time" do
+  it "has pass_one method to pop one card at a time" do
     shoe1 = Shoe.new
     hand = Hand.new
-    hand.add_card shoe1.deal_one
+    hand.add_card shoe1.pass_one
     expect(hand.count).to eq(1)
   end
 

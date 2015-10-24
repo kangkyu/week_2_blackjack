@@ -20,7 +20,7 @@ describe "Person" do
     expect(shoe1.count).to eq(52*1)
     expect(player.count).to eq(0)
 
-    player.receive shoe1.deal_one
+    player.receive shoe1.pass_one
 
     expect(player.count).to eq(1)
   end
