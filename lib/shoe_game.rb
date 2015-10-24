@@ -29,14 +29,14 @@ class ShoeGame
 
   def first_deal
     puts "\n=== ShoeGame.first_deal ==="
-    player.clear
-    dealer.clear
+    player.clear!
+    dealer.clear!
 
-    player << shoe.deal_one
-    dealer << shoe.deal_one(silent: true)
+    player.receive shoe.deal_one
+    dealer.receive shoe.deal_one(silent: true)
 
-    player << shoe.deal_one
-    dealer << shoe.deal_one
+    player.receive shoe.deal_one
+    dealer.receive shoe.deal_one
   end
 
   def player_turn
@@ -49,7 +49,7 @@ class ShoeGame
     loop do
       if player.hit?
         puts " => #{player.name} hits"
-        player << shoe.deal_one
+        player.receive shoe.deal_one
         player.status
         player_busts_and_round_over if player.busted?
       else
@@ -72,7 +72,7 @@ class ShoeGame
         break
       elsif dealer.hit?
         puts " => #{dealer.name} hits"
-        dealer << shoe.deal_one
+        dealer.receive shoe.deal_one
         dealer.status
         dealer_busts_and_round_over if dealer.busted?
       else

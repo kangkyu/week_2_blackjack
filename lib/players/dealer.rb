@@ -7,11 +7,11 @@ class Dealer < Person
 
   def decide_hit
     sleep 1
-    hand.total_value < 17
+    total_value < 17
   end
 
   def flip_first_card
     puts "#{name}'s first card was:"
-    puts hand.cards.first
+    puts first
   end
 end

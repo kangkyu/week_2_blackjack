@@ -1,12 +1,10 @@
 require_relative '../cards/hand'
 
-class Person
-  include Comparable
-
-  attr_accessor :hand, :name
+class Person < Hand
+  attr_accessor :name
   def initialize(name)
     @name = name.capitalize
-    @hand = Hand.new
+    super()
   end
 
   def hit?
@@ -16,33 +14,13 @@ class Person
   def status
     puts "=== Person.status ==="
     puts "=== status of #{name} ==="
-    puts "#{name} has now total value : #{hand.total_value}"
-    hand.each {|card| puts card}
+    puts "#{name} has now total value : #{total_value}"
+    each {|card| puts card}
   end
 
-  def <=>(other)
-    hand.total_value <=> other.hand.total_value
-  end
-
-  def clear
-    hand.clear!
-  end
-
-  def push(*arg)
-    hand.add_card(*arg)
-  end
-
-  def <<(arg)
-    hand.add_card arg
+  def receive(card)
+    add_card card
     puts " ...passes to #{name}"
     puts
-  end
-
-  def blackjack?
-    hand.total_value == 21
-  end
-
-  def busted?
-    hand.total_value > 21
   end
 end
