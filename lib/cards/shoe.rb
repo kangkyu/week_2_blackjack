@@ -12,7 +12,7 @@ class Shoe < Cards
   def deal_one(silent: false)
     pop_card = @cards.pop
     if silent
-      puts "......"
+      puts "......".rjust(30)
     else
       puts pop_card
     end
@@ -22,7 +22,9 @@ class Shoe < Cards
   class Deck < Cards
 
     def initialize
-      @cards = Card::RANK_NAME.keys.product(Card::SUIT_NAME.keys).collect do |r, s|
+      @cards = Card::RANK_NAME.keys
+      .product(Card::SUIT_NAME.keys)
+      .collect do |r, s|
         Card.new(r, s)
       end
     end

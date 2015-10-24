@@ -1,6 +1,6 @@
-require_relative 'player'
-require_relative 'dealer'
-require_relative 'shoe'
+require_relative 'players/player'
+require_relative 'players/dealer'
+require_relative 'cards/shoe'
 
 class ShoeGame
   attr_accessor :shoe, :dealer, :player

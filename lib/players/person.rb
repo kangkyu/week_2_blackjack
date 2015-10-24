@@ -1,4 +1,4 @@
-require_relative 'hand'
+require_relative '../cards/hand'
 
 class Person
   include Comparable

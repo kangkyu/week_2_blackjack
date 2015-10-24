@@ -9,10 +9,6 @@ class Hand < Cards
     face_value_sum
   end
 
-  def clear!
-    @cards.clear
-  end
-
   private
   
   def soft_aces_count
