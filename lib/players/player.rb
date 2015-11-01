@@ -2,12 +2,16 @@ require_relative 'person'
 
 class Player < Person
   START_AMOUNT = 100
-
   attr_accessor :money_current, :money_bet
-  def initialize(name = 'player', money = START_AMOUNT)
+
+  def initialize(name = 'player', option={})
     super(name)
-    @money_current = money
+    @money_current = option[:money] || START_AMOUNT
     @money_bet = 0
+  end
+
+  def name=(name)
+    @name = name.split(/\W/).map(&:capitalize).join(' ')
   end
 
   def decide_hit
@@ -24,11 +28,20 @@ class Player < Person
 
   def decide_bet_much
     puts "how much do you bet? you have #{money_current}"
-    answer = gets.chomp
-    if answer.to_i > 0
-      answer.to_i
+    bet = gets.chomp.to_i
+    if bet > 0
+      bet
     else
       decide_bet_much  
     end
+  end
+
+  def bet_money
+    money_bet = decide_bet_much
+  end
+
+  def wins
+    puts money_bet
+    money_current = money_bet
   end
 end

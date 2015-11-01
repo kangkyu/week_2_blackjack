@@ -4,6 +4,7 @@ require_relative 'cards/shoe'
 
 class ShoeGame
   attr_accessor :shoe, :dealer, :player
+
   def initialize
     puts "\n=== ShoeGame.initialize ==="
     @shoe = Shoe.new(6)
@@ -18,11 +19,11 @@ class ShoeGame
 
   def play_round
     puts "\n=== ShoeGame.play_round ==="
-    player.money_bet = player.decide_bet_much
+    player.bet_money
     first_deal
     player_turn
     dealer_turn
-    compare_stay_value
+    compare_stay_value_and_round_over
   end
 
   private
@@ -82,12 +83,13 @@ class ShoeGame
     end
   end
 
-  def compare_stay_value
-    puts "\n=== ShoeGame.compare_stay_value ==="
-    if dealer < player
+  def compare_stay_value_and_round_over
+    puts "\n=== ShoeGame.compare_stay_value_and_round_over ==="
+    case
+    when dealer < player
       puts "#{player.name} wins"
-      player.money_current += player.money_bet
-    elsif dealer > player
+      player.wins
+    when dealer > player
       puts "#{dealer.name} wins"
       player.money_current -= player.money_bet
     else
@@ -153,8 +155,7 @@ class ShoeGame
   def greet_player
     puts "\n=== ShoeGame.greet_player ==="
     puts "Hello, before we start the game, may I have your first name?"
-    answer = gets.chomp
-    player.name = answer.capitalize
+    player.name = gets.chomp.capitalize
     puts "Hi, #{player.name}!"
   end
 
