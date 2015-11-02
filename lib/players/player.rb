@@ -4,7 +4,7 @@ class Player < Person
   START_AMOUNT = 100
   attr_accessor :money_current, :money_bet
 
-  def initialize(name = 'player', option={})
+  def initialize(name = 'player', option = {})
     super(name)
     @money_current = option[:money] || START_AMOUNT
     @money_bet = 0
@@ -30,18 +30,17 @@ class Player < Person
     puts "how much do you bet? you have #{money_current}"
     bet = gets.chomp.to_i
     if bet > 0
-      bet
+      @money_bet = bet
     else
       decide_bet_much  
     end
   end
 
-  def bet_money
-    money_bet = decide_bet_much
+  def wins
+    @money_current += money_bet
   end
 
-  def wins
-    puts money_bet
-    money_current = money_bet
+  def loses
+    @money_current -= money_bet
   end
 end

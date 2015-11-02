@@ -22,19 +22,22 @@ describe 'Player' do
   end
 
   it "has current money by object definition" do
+    skip 'need option hash'
     player2 = Player.new('samson', money: 1357)
     expect(@player.money_current).to eq(1357)
   end
 
   it "wins bet money" do
     @player.money_bet = 10
-    @player.money_current = 0
+    expect do
+      @player.wins
+    end.to change { @player.money_current }.by 10
+  end
 
-    @player.wins
-    # expect do
-    #   @player.wins
-    # end.to change { @player.money_current }.by 10
-
-    expect(@player.money_current).to eq(10)
+  it "loses bet money" do
+    @player.money_bet = 10
+    expect do
+      @player.loses
+    end.to change { @player.money_current }.by -10
   end
 end

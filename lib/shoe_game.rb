@@ -19,7 +19,7 @@ class ShoeGame
 
   def play_round
     puts "\n=== ShoeGame.play_round ==="
-    player.bet_money
+    player.decide_bet_much
     first_deal
     player_turn
     dealer_turn
@@ -91,10 +91,9 @@ class ShoeGame
       player.wins
     when dealer > player
       puts "#{dealer.name} wins"
-      player.money_current -= player.money_bet
+      player.loses
     else
       puts "Push!"
-      player.money_current += 0
     end
     round_over
   end
@@ -115,28 +114,28 @@ class ShoeGame
   def player_blackjack_and_round_over
     puts "\n=== ShoeGame.player_blackjack_and_round_over ==="
     puts " => #{player.name} blackjack"
-    player.money_current += player.money_bet * 2
+    2.times { player.wins }
     round_over
   end
 
   def dealer_blackjack_and_round_over
     puts "\n=== ShoeGame.dealer_blackjack_and_round_over ==="
     puts " => #{dealer.name} blackjack"
-    player.money_current -= player.money_bet * 2
+    2.times { player.loses }
     round_over
   end
 
   def player_busts_and_round_over
     puts "\n=== ShoeGame.player_busts_and_round_over ==="
     puts " => #{player.name} busts"
-    player.money_current -= player.money_bet
+    player.loses
     round_over
   end
 
   def dealer_busts_and_round_over
     puts "\n=== ShoeGame.dealer_busts_and_round_over ==="
     puts " => #{dealer.name} busts"
-    player.money_current += player.money_bet
+    player.wins
     round_over
   end
 
